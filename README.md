@@ -47,11 +47,9 @@ make clean
 ## Creating a test case
 The Python script "generate\_cases.py" can be used to create many different
 geometries to model using your CFD solver. For the basic version of the code the
-"bend" and "bump" cases form a good starting point. Make a directory for your
-cases alongside your code directory, move to it and then execute the Python 
-script.
+"bend" and "bump" cases form a good starting point. Move to the directory for 
+your cases alongside your code directory and then execute the Python script.
 ```
-mkdir ~/4A2/Cases
 cd ~/4A2/Cases
 python ../Code/generate_case.py bend
 ```
