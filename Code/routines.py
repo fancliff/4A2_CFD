@@ -40,7 +40,7 @@ def cut_i(b,i):
             c[var] = b[var]
 
     # Store the projected lengths in the i-direction
-    c['lx'] = b['lx_i']; c['ly'] = b['ly_i'];
+    c['lx'] = b['lx_i'][i,:]; c['ly'] = b['ly_i'][i,:];
 
     return c
 
