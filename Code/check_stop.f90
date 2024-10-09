@@ -8,7 +8,7 @@
       use types
       implicit none
       type(t_appvars), intent(in) :: av
-      type(t_grid), intent(in) :: g
+      type(t_grid), intent(inout) :: g
       integer :: ifstop
 
 !     Check the stop file

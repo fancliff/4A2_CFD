@@ -6,7 +6,8 @@
 
 !     Explicitly declare the required variables
       use types
-      use stencils
+      use flux_stencil
+      use smooth_stencil
       implicit none
       type(t_appvars), intent(in) :: av
       type(t_grid), intent(inout) :: g

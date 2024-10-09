@@ -18,7 +18,7 @@
       real :: t_out, v_out, ro_out, lx, ly, l
 
 !     Variables required for the improved guess, you will need to add to these
-      real :: l_temp(g%nj), l_i(g%ni)
+      real :: l_i(g%ni)
 !     INSERT
 
 !     Get the size of the mesh and store locally for convenience
