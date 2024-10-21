@@ -1,6 +1,8 @@
 ## 4A2 - Computational Fluid Dynamics
 Example and complete code for the IIB module
 
+git test using remote access
+
 ## Getting started
 This directory contains all Fortran source files of the skeleton code.
 "solver.f90" is the main program, each of the other .f90 files contains one
