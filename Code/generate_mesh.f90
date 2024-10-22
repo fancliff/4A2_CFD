@@ -14,7 +14,8 @@
       integer :: ni, nj
 
 !     Declare integers or any extra variables you need here
-!     INSERT
+      real :: sj(g%nj)
+      integer :: n
 
 !     Get the size of the mesh and store locally for convenience
       ni = g%ni; nj = g%nj;
@@ -37,7 +38,15 @@
 !     Create a new vector of non-dimensional spacings in the j-direction using 
 !     "linspace", loop over the mesh in the i-direction and calculate the
 !     intermediate coordinates from a weighted sum of the two boundaries
-!     INSERT
+      call linspace(0.0,1.0,sj)
+      
+      do n = 1,ni
+          g%x(n,:) = g%x(n,1) * (1-sj(:)) + g%x(n,nj) * sj(:)
+          g%y(n,:) = g%y(n,1) * (1-sj(:)) + g%y(n,nj) * sj(:)
+          write(6,*) g%x(n,:)
+          write(6,*) g%y(n,:)
+          write(6,*)
+      end do
 
 !     In all of the test cases for the basic solver the the "j = 1" and "j = nj"
 !     boundaries are walls, for the extensions you may need to return to this
