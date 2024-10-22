@@ -23,7 +23,10 @@
 !     the values come out positive! You can do this using two nested loops in
 !     the i and j-directions or in a vectorised way by indexing the coordinate
 !     arrays with lists of indices
-!     INSERT
+      g%area = 0.5 * ( (g%x(2:ni,2:nj) - g%x(1:ni-1,1:nj-1)) &
+                         * (g%y(1:ni-1,2:nj) - g%y(2:ni,1:nj-1)) &
+                        - ((g%x(1:ni-1,2:nj) - g%x(2:ni,1:nj-1)) &
+                         * (g%y(2:ni,2:nj) - g%y(1:ni-1,1:nj-1))))
 
 !     Calculate the projected lengths in the x and y-directions on all of the
 !     "i = const" facets and store them in g%lx_i and g%ly_i. When combined
