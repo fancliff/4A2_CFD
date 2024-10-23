@@ -38,8 +38,6 @@
 !     Print the lengths of the curves that have been successfully read
       write(6,*) 'Read domain curves from file'
       write(6,*) '  Curve lengths ni_a =', geom%ni_a, 'ni_b = ', geom%ni_b
-!      write(6,*) 'Curve b x values:', geom%x_b
-!      write(6,*) 'Curve b y values:', geom%y_b
       write(6,*)
 
 !     Close the unit now everything has been read

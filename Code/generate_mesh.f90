@@ -45,7 +45,6 @@
           g%y(n,:) = g%y(n,1) * (1-sj(:)) + g%y(n,nj) * sj(:)
 !          write(6,*) g%x(n,:)
 !          write(6,*) g%y(n,:)
-          write(6,*)
       end do
 
 !     In all of the test cases for the basic solver the the "j = 1" and "j = nj"

@@ -12,6 +12,7 @@
       integer :: ni, nj
 
 !     Declare integers or any extra variables you need here
+      real, dimension(:,:), allocatable :: l_i,l_j
       
 
 !     Get the size of the mesh and store locally for convenience
