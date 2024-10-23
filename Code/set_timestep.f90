@@ -26,11 +26,11 @@
       av%dt = av%cfl * g%l_min / (2 * v_max)
 
 !     Print the calculated timestep and some intermediate values
-      write(6,*) 'a(stag): ', astag
-      write(6,*) 'V max: ', v_max
-      write(6,*) 'CFL no. ', av%cfl
-      write(6,*) 'L min: ', g%l_min
-      write(6,*)
+!      write(6,*) 'a(stag): ', astag
+!      write(6,*) 'V max: ', v_max
+!      write(6,*) 'CFL no. ', av%cfl
+!      write(6,*) 'L min: ', g%l_min
+!      write(6,*)
       write(6,*) 'Timestep: ', av%dt
       write(6,*)
 
