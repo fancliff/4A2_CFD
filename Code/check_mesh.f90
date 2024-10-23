@@ -52,6 +52,9 @@
 !     access to all of the mesh parameters used within the solver that you could
 !     inspect graphically.
 
+!     MINIMUM CELL LENGTH SCALE CHECKED AGAINST PYTHON PLOT USING PLOT_COORD.PY
+!     CORRECT FOR BEND, BUMP, TUNNEL, WAVES, TUBE. NACA AND TURBINE_C&H N/A YET
+
 !     Print a blank line
       write(6,*)
 
