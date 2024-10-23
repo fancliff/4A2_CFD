@@ -34,7 +34,17 @@
 !     very nearly zero in both the x and y-coordinate directions. You can
 !     complete this with some elementwise addition of the arrays and use of the
 !     "maxval" and "abs" intrinsic functions.
-!     INSERT
+      dx_error = maxval(abs( g%lx_i(1:ni-1,:) + g%lx_j(:,1:nj-1) & 
+				- g%lx_i(2:ni,:) - g%lx_j(:,2:nj) ))
+      
+      dy_error = maxval(abs( g%ly_i(1:ni-1,:) + g%ly_j(:,1:nj-1) & 
+				- g%ly_i(2:ni,:) - g%ly_j(:,2:nj) ))
+      
+      write(6,*) 'Max dx error: ', dx_error, 'Max dy error: ', dy_error
+      if(max(dx_error,dy_error) > tol) then
+          write(6,*) 'Max edge vector sum outside tolerance, program aborting'
+          stop
+      end if
 
 !     It may be worthwhile to complete some other checks, the prevous call to
 !     the "write_output" subroutine has written a file that you can read and
