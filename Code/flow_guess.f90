@@ -64,7 +64,7 @@
 !         "l_i". You could calculate the length along each i-facet from the x 
 !         and y projected lengths with "hypot" and then sum them up in the
 !         second dimension with "sum". 
-!         INSERT
+          l_i(:) = sum( (hypot(lx_i(:,:),ly_i(:,:)) , 2)
 
 !         Use the exit temperature, density and velocity calculated for the 
 !         crude guess with "l_i" to estimate the mass flow rate at the exit
