@@ -11,9 +11,7 @@
       type(t_grid), intent(inout) :: g
       integer :: ni, nj
 
-!     Declare integers or any extra variables you need here
-      real, dimension(:,:), allocatable :: l_i,l_j
-      
+!     Declare integers or any extra variables you need here   
 
 !     Get the size of the mesh and store locally for convenience
       ni = g%ni; nj = g%nj;
@@ -49,10 +47,9 @@
 !     of the i and j facets by using the intrinsic function "hypot", this avoids
 !     underflow and overflow errors. Then find the overal minimum value using
 !     both the "min" and "minval" functions.
-      l_i = hypot(g%lx_i(:,:),g%ly_i(:,:))
-      l_j = hypot(g%lx_j(:,:),g%ly_j(:,:))
       
-      g%l_min = min(minval(l_i),minval(l_j))
+      g%l_min = min(minval(hypot(g%lx_i(:,:),g%ly_i(:,:))) , & 
+      			minval(hypot(g%lx_j(:,:),g%ly_j(:,:))))
 !
 !     Print the overall minimum length size that has been calculated
       write(6,*) 'Calculated cell areas and facet lengths'
