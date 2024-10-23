@@ -23,7 +23,12 @@
 !     "minval" function or with nested do loops. Print the output to the screen
 !     and flag negative numbers as an error with an if statement to "stop" the
 !     program
-!     INSERT
+      area_min = minval(g%area)
+      write(6,*) 'Minimum cell area', area_min
+      if(area_min <= 0) then
+          write(6,*) 'Negative or zero min cell area, program aborting'
+          stop 
+      end if
 
 !     Next check that the sum of the edge vectors around every quadrilateral is 
 !     very nearly zero in both the x and y-coordinate directions. You can
