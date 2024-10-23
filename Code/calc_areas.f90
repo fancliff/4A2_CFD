@@ -12,7 +12,7 @@
       integer :: ni, nj
 
 !     Declare integers or any extra variables you need here
-!     INSERT
+      
 
 !     Get the size of the mesh and store locally for convenience
       ni = g%ni; nj = g%nj;
@@ -48,7 +48,10 @@
 !     of the i and j facets by using the intrinsic function "hypot", this avoids
 !     underflow and overflow errors. Then find the overal minimum value using
 !     both the "min" and "minval" functions.
-!     INSERT
+      l_i = hypot(g%lx_i(:,:),g%ly_i(:,:))
+      l_j = hypot(g%lx_j(:,:),g%ly_j(:,:))
+      
+      g%l_min = min(minval(l_i),minval(l_j))
 !
 !     Print the overall minimum length size that has been calculated
       write(6,*) 'Calculated cell areas and facet lengths'
