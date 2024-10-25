@@ -102,7 +102,9 @@
           ly(:,:) = g%ly_j(1:ni-1,:)
           l = hypot(lx,ly)
           g%ro = reshape(ro_guess, [ni,nj])
-          g%roe  = g%ro * (av%cv * t_guess + 0.5 * v_out**2)
+          g%roe  = reshape( (ro_guess * (av%cv * t_guess + 0.5 * v_guess**2)) , &
+          					[ni,nj] )
+          
               
 !         Make sure the guess has been copied for the "i = ni" values too
 !         INSERT
