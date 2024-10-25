@@ -17,12 +17,12 @@
 !     Variables required for the crude guess
       real :: t_out, v_out, ro_out, lx, ly, l
 
-!     Variables required for the improved guess, you will need to add to these
-      real :: l_i(g%ni)
-!     INSERT
-
 !     Get the size of the mesh and store locally for convenience
       ni = g%ni; nj = g%nj;
+
+!     Variables required for the improved guess, you will need to add to these
+      real :: l_i(ni), v_guess(ni), ro_guess(ni), t_guess(ni)
+      real :: mdot, mach_lim, t_lim
 
 !     Assuming isentropic flow to the the exit plane calculate the static
 !     temperature and the exit velocity
@@ -64,16 +64,17 @@
 !         "l_i". You could calculate the length along each i-facet from the x 
 !         and y projected lengths with "hypot" and then sum them up in the
 !         second dimension with "sum". 
-          l_i(:) = sum( (hypot(lx_i(:,:),ly_i(:,:)) , 2)
+          l_i(:) = sum( (hypot(lx_i(:,:),ly_i(:,:)) , 2) )
 
 !         Use the exit temperature, density and velocity calculated for the 
 !         crude guess with "l_i" to estimate the mass flow rate at the exit
-!         INSERT
+          mdot = ro_out * v_out * l_i(ni)
 
 !         Set a limit to the maximum allowable mach number in the initial
 !         guess, call this "mach_lim", calculate the corresponding temperature,
 !         called "t_lim"
-!         INSERT
+          mach_lim = 1
+          t_lim = mach_lim**2 / (av%gam * av%rgas)
 
 !         Now estimate the velocity and density at every "i = const" line, call 
 !         the velocity "v_guess(i)" and the density "ro_guess(i)":
@@ -83,7 +84,10 @@
 !             4. Limit the static temperature, lookup intrinsic "max"
 !             5. Calculate the density throughout "ro_guess(i)"
 !             6. Update the estimate of the velocity "v_guess(i)" 
-!         INSERT
+          v_guess(:) = mdot / ( ro_out * l_i(:) )
+          t_guess(:) = bcs%tstag - (v_guess(:)**2)/(2*av%cp)
+          merge(t_guess, t_lim, t_guess > t_lim)
+          ro_guess (:) = 
 
 !         Direct the calculated velocity to be parallel to the "j = const"
 !         gridlines for all values of i and j. This can be achieved with a 
