@@ -23,6 +23,8 @@
 !     Variables required for the improved guess, you will need to add to these
       real :: l_i(ni), v_guess(ni), ro_guess(ni), t_guess(ni)
       real :: mdot, mach_lim, t_lim
+      real :: lx(ni-1,nj), ly(ni-1,nj), l(ni-1,nj)
+      
 
 !     Assuming isentropic flow to the the exit plane calculate the static
 !     temperature and the exit velocity
@@ -87,14 +89,20 @@
           v_guess(:) = mdot / ( ro_out * l_i(:) )
           t_guess(:) = bcs%tstag - (v_guess(:)**2)/(2*av%cp)
           merge(t_guess, t_lim, t_guess > t_lim)
-          ro_guess (:) = 
+          ro_guess (:) = bcs%pstag * (t_guess(:)/bcs%tstag)**(av%gam/(av%gam-1)) & 
+          					/ (av%rgas * t_guess(:))
+          v_guess(:) = mdot / ( ro_guess(:) * l_i(:) )
 
 !         Direct the calculated velocity to be parallel to the "j = const"
 !         gridlines for all values of i and j. This can be achieved with a 
 !         similar calculation to the "j = nj/2" one that was performed in the 
 !         crude guess. Then set all of ro, roe, rovx and rovy, note that roe 
 !         includes the kinetic energy component of the internal energy.
-!         INSERT 
+          lx(:,:) = g%lx_j(1:ni-1,:)
+          ly(:,:) = g%ly_j(1:ni-1,:)
+          l = hypot(lx,ly)
+          g%ro = reshape(ro_guess, [ni,nj])
+          g%roe  = g%ro * (av%cv * t_guess + 0.5 * v_out**2)
               
 !         Make sure the guess has been copied for the "i = ni" values too
 !         INSERT
