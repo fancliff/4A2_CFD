@@ -65,7 +65,7 @@
 !         "l_i". You could calculate the length along each i-facet from the x 
 !         and y projected lengths with "hypot" and then sum them up in the
 !         second dimension with "sum". 
-          l_i(:) = sum( (hypot(lx_i(:,:),ly_i(:,:)) , 2) )
+          l_i(:) = sum( (hypot(g%lx_i(:,:),g%ly_i(:,:))) , 2)
 
 !         Use the exit temperature, density and velocity calculated for the 
 !         crude guess with "l_i" to estimate the mass flow rate at the exit
@@ -87,7 +87,7 @@
 !             6. Update the estimate of the velocity "v_guess(i)" 
           v_guess(:) = mdot / ( ro_out * l_i(:) )
           t_guess(:) = bcs%tstag - (v_guess(:)**2)/(2*av%cp)
-          merge(t_guess, t_lim, t_guess > t_lim)
+          t_guess = merge(t_guess, t_lim, t_guess > t_lim)
           ro_guess (:) = bcs%pstag * (t_guess(:)/bcs%tstag)**(av%gam/(av%gam-1)) & 
           					/ (av%rgas * t_guess(:))
           v_guess(:) = mdot / ( ro_guess(:) * l_i(:) )
@@ -97,20 +97,28 @@
 !         similar calculation to the "j = nj/2" one that was performed in the 
 !         crude guess. Then set all of ro, roe, rovx and rovy, note that roe 
 !         includes the kinetic energy component of the internal energy.
-          lx(:,:) = g%lx_j(1:ni-1,:)
-          ly(:,:) = g%ly_j(1:ni-1,:)
-          l = hypot(lx,ly)
-          g%ro = reshape(ro_guess, [ni,nj])
-          write(6,*) 'ro: ', g%ro
-          g%roe  = reshape( (ro_guess * (av%cv * t_guess + 0.5 * v_guess**2)) , &
-          					[ni,nj] )
+          dx(:,:) = g%lx_j(1:ni-1,:)
+          dy(:,:) = g%ly_j(1:ni-1,:)
+          dl = hypot(dx,dy)
+          do i = 1,ni-1
+              g%ro(i,:) = ro_guess(i)
+              g%roe(i,:) = ro_guess(i) * (av%cv * t_guess(i) + 0.5 * v_guess(i)**2))
+              g%rovx(i,:) = g%ro(i,:) * v_guess(i) * dy(i,:) / dl(i,:)
+              g%rovy(i,:) = -g%ro(i,:) * v_guess(i) * dx(i,:) / dl(i,:)
+          end do					
           
               
 !         Make sure the guess has been copied for the "i = ni" values too
-!         INSERT
+      	  go%ro(ni,:) = ro_guess(ni)
+      	  g%roe(ni,:) = ro_guess(ni) * (av%cv * t_guess(ni) + 0.5 * v_guess(ni)**2))
+          g%rovx(ni,:) = g%rovx(ni-1,:)
+          g%rovy(ni,:) = g%rovy(ni-1,:)
 
 !         Print the first elements of the guess like for the crude guess
-!         INSERT
+          write(6,*) 'Improved flow guess calculated'
+          write(6,*) '  At first point ro =', g%ro(1,1), 'roe =', &
+              g%roe(1,1), 'rovx =', g%rovx(1,1), 'rovy =', g%rovy(1,1)
+          write(6,*)
 
       end if
 
