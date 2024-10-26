@@ -20,7 +20,10 @@
 !     "hstag". These are needed at every timestep, there is no need for any 
 !     loops as the operations can be performed elementwise, although you may
 !     wish to define some intermediate variables to improve readability.
-!     INSERT
+      g%vx = g%rovx / g%ro
+      g%vy = g%rovy / g%ro
+      g%p = (av%gam - 1) * (g%roe - (g%ro * hypot(g%vx,g%vy)**2) / 2)
+      g%hstag = (g%roe + g%p) / g%ro
 
       end subroutine set_secondary
 
