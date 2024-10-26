@@ -88,7 +88,7 @@
           v_guess(:) = mdot / ( ro_out * l_i(:) )
           t_guess(:) = bcs%tstag - (v_guess(:)**2)/(2*av%cp)
           t_guess = merge(t_guess, t_lim, t_guess > t_lim)
-          ro_guess (:) = bcs%pstag * (t_guess(:)/bcs%tstag)**(av%gam/(av%gam-1)) & 
+          ro_guess(:) = bcs%pstag * (t_guess(:)/bcs%tstag)**(av%gam/(av%gam-1)) & 
           					/ (av%rgas * t_guess(:))
           v_guess(:) = mdot / ( ro_guess(:) * l_i(:) )
 
@@ -102,15 +102,15 @@
           dl = hypot(dx,dy)
           do i = 1,ni-1
               g%ro(i,:) = ro_guess(i)
-              g%roe(i,:) = ro_guess(i) * (av%cv * t_guess(i) + 0.5 * v_guess(i)**2))
+              g%roe(i,:) = ro_guess(i) * (av%cv * t_guess(i) + 0.5 * v_guess(i)**2)
               g%rovx(i,:) = g%ro(i,:) * v_guess(i) * dy(i,:) / dl(i,:)
               g%rovy(i,:) = -g%ro(i,:) * v_guess(i) * dx(i,:) / dl(i,:)
           end do					
           
               
 !         Make sure the guess has been copied for the "i = ni" values too
-      	  go%ro(ni,:) = ro_guess(ni)
-      	  g%roe(ni,:) = ro_guess(ni) * (av%cv * t_guess(ni) + 0.5 * v_guess(ni)**2))
+      	  g%ro(ni,:) = ro_guess(ni)
+      	  g%roe(ni,:) = ro_guess(ni) * (av%cv * t_guess(ni) + 0.5 * v_guess(ni)**2)
           g%rovx(ni,:) = g%rovx(ni-1,:)
           g%rovy(ni,:) = g%rovy(ni-1,:)
 
