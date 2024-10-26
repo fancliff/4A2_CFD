@@ -17,14 +17,13 @@
 !     Variables required for the crude guess
       real :: t_out, v_out, ro_out, lx, ly, l
 
+!     Variables required for the improved guess, you will need to add to these
+      real, dimension(g%ni) :: l_i, v_guess, ro_guess, t_guess
+      real :: mdot, mach_lim, t_lim
+      real, dimension(g%ni-1,g%nj) :: dx, dy, dl
+      
 !     Get the size of the mesh and store locally for convenience
       ni = g%ni; nj = g%nj;
-
-!     Variables required for the improved guess, you will need to add to these
-      real :: l_i(ni), v_guess(ni), ro_guess(ni), t_guess(ni)
-      real :: mdot, mach_lim, t_lim
-      real :: lx(ni-1,nj), ly(ni-1,nj), l(ni-1,nj)
-      
 
 !     Assuming isentropic flow to the the exit plane calculate the static
 !     temperature and the exit velocity
@@ -102,6 +101,7 @@
           ly(:,:) = g%ly_j(1:ni-1,:)
           l = hypot(lx,ly)
           g%ro = reshape(ro_guess, [ni,nj])
+          write(6,*) 'ro: ', g%ro
           g%roe  = reshape( (ro_guess * (av%cv * t_guess + 0.5 * v_guess**2)) , &
           					[ni,nj] )
           
