@@ -21,7 +21,11 @@
 !     Setup the continuity equation by calculating the mass flow through
 !     the facets in both the i and j-directions. Store these values in
 !     "mass_i" and "mass_j"
-!     INSERT
+      mass_i = ((g%rovx(:,1:nj-1)+g%rovx(:,2:nj))*g%lx_i + &
+                (g%rovy(:,1:nj-1)+g%rovy(:,2:nj))*g%ly_i) / 2
+      
+      mass_j = ((g%rovx(1:ni-1,:)+g%rovx(2:ni,:))*g%lx_j + &
+                (g%rovy(1:ni-1,:)+g%rovy(2:ni,:))*g%ly_j) / 2
      
 !     Apply the wall boundary condition by checking that two nodes at the
 !     end of a facet are both on a wall, if so then the appropriate mass
