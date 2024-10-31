@@ -20,8 +20,27 @@ def calc_secondary(av,b):
     # Calculate secondary flow variables that you will need to inspect during
     # your post-processing, save them into the block "b" dictionary alongside
     # mesh coordinates and primary flow variables.
-    # INSERT
+    gm = av['gam']
+    gm1 = gm - 1
+    b['vx'] = b['rovx']/b['ro']
+    b['vy'] = b['rovy']/b['ro']
+    Vsq = b['vx']**2 + b['vy']**2
+    b['p'] = (gm1) * ( b['roe'] - (b['ro']*Vsq/2) )
+    b['hstag'] = (b['roe'] + b['p']) / b['ro'] #constant if adibatic and no work
+    Msq =  Vsq / (gm*b['p']/b['ro']) #asssume ideal gas RT = p/ro
+    b['M'] = Msq ** 0.5
+    comp_term = 1 + gm1*Msq/2
+    b['tstag'] = av['tstag'] # assume adiabatic flow
+    b['t'] = b['tstag'] / comp_term
+    b['pstag'] = b['p'] * comp_term ** (gm/gm1)
+    b['alpha'] = np.degrees(np.atan2(b['vy'], b['vx']))
 
+    #complete and check expressions for enthalpy and entropy
+    #what is a suitable reference value
+    #hstag - Vsq/2 ??? not compressible relation ???
+    b['h'] = av['cp'] * b['t'] #+ho??
+    b['s'] = av['cp'] * np.log(b['t']/300) - av['rgas'] * np.log(b['p']/100000)
+    #perfect gas assumption and reference entropy = 0 at (300K, 1bar)
     return b
 
 ################################################################################
