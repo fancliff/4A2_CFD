@@ -52,10 +52,7 @@
 !     Finally distribute the changes to be to the four bounding corner points, 
 !     these receive the full change from the single cell of which they form one 
 !     corner.
-      dnode(1,1) = dcell(1,1)
-      dnode(1,nj) = dcell(1,nj)
-      dnode(ni,1) = dcell(ni,1)
-      dnode(ni,nj) = dcell(ni,nj)
+      dnode([1,ni],[1,nj]) = dcell([1,ni],[1,nj])
 
 !     Update the solution by adding the changes at the nodes "dnode" to the flow
 !     property "prop"
