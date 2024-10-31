@@ -53,7 +53,7 @@
 !     Now apply the artificial viscosity by smoothing "prop" towards "prop_avg",
 !     take (1-sfac) * the calculated value of the property + sfac * the average 
 !     of the surrounding values. 
-!     INSERT
+      prop = (1 - av%sfac) * prop + av%sfac * prop_avg
 
       end subroutine smooth_array
 
