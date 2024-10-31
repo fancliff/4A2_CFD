@@ -44,7 +44,7 @@
 !     adjacent cells. Distribute the changes for the "i = 1 & ni" edges as well
 !     as the "j = 1 & nj" edges. 
       dnode(1,2:nj-1) = (dcell(1,2:nj-1) + dcell(1,1:nj-2)) / 2
-      dnode(ni,2:nj-1) = (dcell(ni,2:nj-1) + dcell(ni,1:nj-2)) / 2
+      dnode(ni,2:nj-1) = (dcell(ni-1,2:nj-1) + dcell(ni-1,1:nj-2)) / 2
       
       dnode(2:ni-1,1) = (dcell(2:ni-1,1) + dcell(1:ni-2,1)) / 2
       dnode(2:ni-1,nj) = (dcell(2:ni-1,nj) + dcell(1:ni-2,nj)) / 2
@@ -52,7 +52,7 @@
 !     Finally distribute the changes to be to the four bounding corner points, 
 !     these receive the full change from the single cell of which they form one 
 !     corner.
-      dnode([1,ni],[1,nj]) = dcell([1,ni],[1,nj])
+      dnode([1,ni],[1,nj]) = dcell([1,ni-1],[1,nj-1])
 
 !     Update the solution by adding the changes at the nodes "dnode" to the flow
 !     property "prop"
