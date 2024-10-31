@@ -47,7 +47,7 @@
       dnode(ni,2:nj-1) = (dcell(ni-1,2:nj-1) + dcell(ni-1,1:nj-2)) / 2
       
       dnode(2:ni-1,1) = (dcell(2:ni-1,1) + dcell(1:ni-2,1)) / 2
-      dnode(2:ni-1,nj) = (dcell(2:ni-1,nj) + dcell(1:ni-2,nj)) / 2
+      dnode(2:ni-1,nj) = (dcell(2:ni-1,nj-1) + dcell(1:ni-2,nj-1)) / 2
 
 !     Finally distribute the changes to be to the four bounding corner points, 
 !     these receive the full change from the single cell of which they form one 
