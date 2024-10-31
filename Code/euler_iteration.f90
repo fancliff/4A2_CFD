@@ -34,7 +34,7 @@
       where(g%wall(:,1:nj-1) .and. g%wall(:,2:nj)) mass_i = 0 
 
 !     Update the density with mass fluxes by calling "sum_fluxes"
-      sum_fluxes(av,mass_i,mass_j,g%area,g%ro,g%dro)
+      call sum_fluxes(av,mass_i,mass_j,g%area,g%ro,g%dro)
 
 !     Setup the conservation of energy equation by calculated the enthalpy flux
 !     and storing the values in "flux_i" and "flux_j", you will need "mass_i"
@@ -43,7 +43,7 @@
       flux_j = (g%hstag(1:ni-1,:) + g%hstag(2:ni,:)) * mass_j / 2
 
 !     Update the internal energy with enthalpy fluxes
-      sum_fluxes(av,flux_i,flux_j,g%area,g%roe,g%droe)
+      call sum_fluxes(av,flux_i,flux_j,g%area,g%roe,g%droe)
 
 !     Setup the x-momentum equation including momentum flux and pressure forces
       flux_i = ( mass_i*(g%vx(:,1:nj-1) + g%vx(:,2:nj)) + &
@@ -53,7 +53,7 @@
                 (g%p(1:ni-1,:) + g%p(2:ni,:))*g%lx_j ) / 2
 
 !     Update the x-momentum with momentum flux
-      sum_fluxes(av,flux_i,flux_j,g%area,g%rovx,g%drovx)
+      call sum_fluxes(av,flux_i,flux_j,g%area,g%rovx,g%drovx)
 
 !     Setup the y-momentum equation including momentum flux and pressure forces
       flux_i = ( mass_i*(g%vy(:,1:nj-1) + g%vy(:,2:nj)) + &
@@ -63,7 +63,7 @@
                 (g%p(1:ni-1,:) + g%p(2:ni,:))*g%ly_j ) / 2
 
 !     Update the y-momentum with momentum flux
-      sum_fluxes(av,flux_i,flux_j,g%area,g%rovy,g%drovy)
+      call sum_fluxes(av,flux_i,flux_j,g%area,g%rovy,g%drovy)
 
 !     Add artificial viscosity by smoothing all of the primary flow variables
       call smooth_array(av,g%ro)
