@@ -20,10 +20,10 @@
 !     be pessimistic for subsonic flows but may be optimistic for supersonic 
 !     flows. In the latter case the length of the time step as determined by 
 !     may need to be reduced by improving this routine or varying the CFL number
-      v_max = astag
+      v_max = 2*astag
 
 !     Calculate the timestep using the CFL number and store it in "av%dt"
-      av%dt = av%cfl * g%l_min / (2 * v_max)
+      av%dt = av%cfl * g%l_min / v_max
 
 !     Print the calculated timestep and some intermediate values
 !      write(6,*) 'a(stag): ', astag

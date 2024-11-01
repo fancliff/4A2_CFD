@@ -39,16 +39,16 @@
       tstat = bcs%tstag * (bcs%ro/bcs%rostag)**(av%gam-1)
       vel = sqrt( 2.0 * av%cp * (bcs%tstag-tstat) )
 
-      g%rovx(1,:) = bcs%ro(:) * vel(:) * cos(bcs%alpha)
-      g%rovy(1,:) = bcs%ro(:) * vel(:) * sin(bcs%alpha)
+      g%rovx(1,:) = bcs%ro * vel * cos(bcs%alpha)
+      g%rovy(1,:) = bcs%ro * vel * sin(bcs%alpha)
     
       g%roe(1,:) = bcs%ro * (av%cv*tstat + vel**2 / 2)
       
       g%p(1,:) = bcs%ro * av%rgas * tstat
       
-      g%vx(1,:) = vel(:) * cos(bcs%alpha)
-      g%vy(1,:) = vel(:) * sin(bcs%alpha)
-      g%hstag(1,:) = (g%roe(1,:) + g%p(1,:)) / g%ro(1,:)
+      g%vx(1,:) = vel * cos(bcs%alpha)
+      g%vy(1,:) = vel * sin(bcs%alpha)
+      g%hstag(1,:) = (g%roe(1,:) + g%p(1,:)) / bcs%ro
 
 !     For the outlet boundary condition set the value of "p(ni,:)" to the
 !     specified value of static pressure "p_out" in "bcs"

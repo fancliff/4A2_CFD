@@ -20,6 +20,20 @@ def calc_secondary(av,b):
     # Calculate secondary flow variables that you will need to inspect during
     # your post-processing, save them into the block "b" dictionary alongside
     # mesh coordinates and primary flow variables.
+    '''
+    b['vx'] = b['rovx'] / b['ro']
+    b['vy'] = b['rovy'] / b['ro']
+    b['v'] = np.sqrt(b['vx']**2 + b['vy']**2)
+    b['t'] = (b['roe'] - b['ro'] * 0.5 * b['v']**2) / (b['ro'] * av['cv'])
+    b['tstag'] = b['t'] + 0.5 * b['v']**2 / av['cp']
+    b['p'] = b['ro'] * av['rgas'] * b['t']
+    b['pstag'] = b['p'] + 0.5 * b['ro'] * b['v']**2
+    b['mach'] = b['v'] / np.sqrt(av['gam'] * av['rgas'] * b['t'])
+    b['alpha'] = np.arctan(b['vy'], b['vx']) / np.pi * 180
+    b['hstag'] = (b['roe'] + b['p']) / b['ro']
+    '''
+    
+
     gm = av['gam']
     gm1 = gm - 1
     b['vx'] = b['rovx']/b['ro']
@@ -41,6 +55,8 @@ def calc_secondary(av,b):
     b['h'] = av['cp'] * b['t'] #+ho??
     b['s'] = av['cp'] * np.log(b['t']/300) - av['rgas'] * np.log(b['p']/100000)
     #perfect gas assumption and reference entropy = 0 at (300K, 1bar)
+
+
     return b
 
 ################################################################################
