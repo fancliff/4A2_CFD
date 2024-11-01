@@ -33,7 +33,7 @@ def calc_secondary(av,b):
     b['tstag'] = av['tstag'] # assume adiabatic flow
     b['t'] = b['tstag'] / comp_term
     b['pstag'] = b['p'] * comp_term ** (gm/gm1)
-    b['alpha'] = np.degrees(np.atan2(b['vy'], b['vx']))
+    b['alpha'] = np.degrees(np.arctan2(b['vy'], b['vx']))
 
     #complete and check expressions for enthalpy and entropy
     #what is a suitable reference value

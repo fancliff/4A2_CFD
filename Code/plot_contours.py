@@ -32,10 +32,12 @@ def main():
     # reference pressures at the inlet plane and therefore the static pressure
     # coefficient
     g_inlet = cut_i(g,0)
-    pstag_ref = mass_av(g_inlet,'pstag')
-    p_ref = area_av(g_inlet,'p')
+    pstag_ref,_ = mass_av(g_inlet,'pstag')
+    p_ref,_ = area_av(g_inlet,'p')
 
-    b['cp'] = (b['p'] - p_ref)/(pstag_ref-p_ref)
+    print(f'Reference static pressure: {p_ref:.0f}, Reference stagnation pressure: {pstag_ref:.0f}')
+
+    g['cp'] = (g['p'] - p_ref)/(pstag_ref-p_ref)
 
     # Specify the parameters to plot
     fieldnames = ['cp', 'mach']; 
