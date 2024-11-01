@@ -42,11 +42,13 @@
       g%rovx(1,:) = bcs%ro * vel * cos(bcs%alpha)
       g%rovy(1,:) = bcs%ro * vel * sin(bcs%alpha)
     
-      !g%roe(1,:) = bcs%ro * (av%cv*tstat + 0.5 * bcs%ro * vel**2)
+      g%roe(1,:) = bcs%ro * (av%cv*tstat + 0.5 * bcs%ro * vel**2)
       !why does an extra ro (before v^2) give the correct answer!!!!!!
       
       !NaN error if we set p in this expression and also extra bcs%ro in the above expression for roe???
-      g%p(1,:) = bcs%ro * av%rgas * tstat
+      !yet using the same expression for p in expression for hstag is apparently fine????
+      !riddle me that dear watson
+      !g%p(1,:) = bcs%ro * av%rgas * tstat
       
       g%vx(1,:) = vel * cos(bcs%alpha)
       g%vy(1,:) = vel * sin(bcs%alpha)
