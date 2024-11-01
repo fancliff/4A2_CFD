@@ -74,7 +74,7 @@
 !         Set a limit to the maximum allowable mach number in the initial
 !         guess, call this "mach_lim", calculate the corresponding temperature,
 !         called "t_lim"
-          mach_lim = 1
+          mach_lim = 1.0
           t_lim = mach_lim**2 / (av%gam * av%rgas)
 
 !         Now estimate the velocity and density at every "i = const" line, call 
