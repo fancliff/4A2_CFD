@@ -37,7 +37,7 @@
 !     "ro(:)", "pstag", "tstag" and "alpha". Also set "vx(1,:)", "vy(1,:)" and 
 !     "hstag(1,:)"
       tstat = bcs%tstag * (bcs%ro/bcs%rostag)**(av%gam-1)
-      vel = sqrt( (2.0 * av%gam * av%rgas) * (bcs%tstag-tstat)  / (av%gam - 1) )
+      vel = sqrt( 2.0 * av%cp * (bcs%tstag-tstat) )
 
       g%rovx(1,:) = bcs%ro(:) * vel(:) * cos(bcs%alpha)
       g%rovy(1,:) = bcs%ro(:) * vel(:) * sin(bcs%alpha)
