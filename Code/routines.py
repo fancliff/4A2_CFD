@@ -28,7 +28,7 @@ def calc_secondary(av,b):
     b['p'] = (gm1) * ( b['roe'] - (b['ro']*Vsq/2) )
     b['hstag'] = (b['roe'] + b['p']) / b['ro'] #constant if adibatic and no work
     Msq =  Vsq / (gm*b['p']/b['ro']) #asssume ideal gas RT = p/ro
-    b['M'] = Msq ** 0.5
+    b['mach'] = Msq ** 0.5
     comp_term = 1 + gm1*Msq/2
     b['tstag'] = av['tstag'] # assume adiabatic flow
     b['t'] = b['tstag'] / comp_term
