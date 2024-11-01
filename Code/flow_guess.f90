@@ -65,7 +65,7 @@
 !         "l_i". You could calculate the length along each i-facet from the x 
 !         and y projected lengths with "hypot" and then sum them up in the
 !         second dimension with "sum". 
-          l_i(:) = sum( (hypot(g%lx_i(:,:),g%ly_i(:,:))) , 2)
+          l_i = sum( hypot(g%lx_i,g%ly_i) , 2)
 
 !         Use the exit temperature, density and velocity calculated for the 
 !         crude guess with "l_i" to estimate the mass flow rate at the exit
@@ -85,20 +85,19 @@
 !             4. Limit the static temperature, lookup intrinsic "max"
 !             5. Calculate the density throughout "ro_guess(i)"
 !             6. Update the estimate of the velocity "v_guess(i)" 
-          v_guess(:) = mdot / ( ro_out * l_i(:) )
-          t_guess(:) = bcs%tstag - (v_guess(:)**2)/(2*av%cp)
-          t_guess = max(t_guess, t_lim)
-          ro_guess(:) = bcs%pstag * (t_guess(:)/bcs%tstag)**(av%gam/(av%gam-1)) & 
-          					/ (av%rgas * t_guess(:))
-          v_guess(:) = mdot / ( ro_guess(:) * l_i(:) )
+          v_guess = mdot / ( ro_out * l_i )
+          t_guess = max(t_lim, bcs%tstag - (v_guess**2)/(2*av%cp))
+          ro_guess = bcs%pstag * (t_guess/bcs%tstag)**(av%gam/(av%gam-1)) & 
+          					/ (av%rgas * t_guess)
+          v_guess = mdot / ( ro_guess * l_i )
 
 !         Direct the calculated velocity to be parallel to the "j = const"
 !         gridlines for all values of i and j. This can be achieved with a 
 !         similar calculation to the "j = nj/2" one that was performed in the 
 !         crude guess. Then set all of ro, roe, rovx and rovy, note that roe 
 !         includes the kinetic energy component of the internal energy.
-          dx(:,:) = g%lx_j(1:ni-1,:)
-          dy(:,:) = g%ly_j(1:ni-1,:)
+          dx = g%lx_j(1:ni-1,:)
+          dy = g%ly_j(1:ni-1,:)
           dl = hypot(dx,dy)
           do i = 1,ni-1
               g%ro(i,:) = ro_guess(i)
@@ -109,8 +108,8 @@
           
               
 !         Make sure the guess has been copied for the "i = ni" values too
-      	  g%ro(ni,:) = ro_guess(ni)
-      	  g%roe(ni,:) = ro_guess(ni) * (av%cv * t_guess(ni) + 0.5 * v_guess(ni)**2)
+      	  g%ro(ni,:) = g%ro(ni-1,:)
+      	  g%roe(ni,:) = g%roe(ni-1,:)
           g%rovx(ni,:) = g%rovx(ni-1,:)
           g%rovy(ni,:) = g%rovy(ni-1,:)
 

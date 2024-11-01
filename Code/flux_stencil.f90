@@ -29,9 +29,8 @@
 
 !     Use the finite volume method to find the change in the variables "prop"
 !     over the timestep "dt", save it in the array "dcell"
-      dcell = ( av%dt / area(1:ni-1,1:nj-1) ) * & 
-              ( flux_i(1:ni-1,1:nj-1) - flux_i(2:ni,1:nj-1) &
-              + flux_j(1:ni-1,1:nj-1) - flux_j(1:ni-1,2:nj) )
+      dcell = ( av%dt / area ) * & 
+         (flux_i(1:ni-1,:) - flux_i(2:ni,:) + flux_j(:,1:nj-1) - flux_j(:,2:nj))
 
 !     Now distribute the changes equally to the four corners of each cell. Each 
 !     interior grid point receives one quarter of the change from each of the 
