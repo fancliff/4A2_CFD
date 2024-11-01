@@ -44,7 +44,7 @@
     
       g%roe(1,:) = bcs%ro * (av%cv*tstat + vel**2 / 2)
       
-      g%p(1,:) = bcs%pstag * (bcs%ro / bcs%rostag)**av%gam
+      g%p(1,:) = bcs%ro * av%rgas * tstat
       
       g%vx(1,:) = vel(:) * cos(bcs%alpha)
       g%vy(1,:) = vel(:) * sin(bcs%alpha)
