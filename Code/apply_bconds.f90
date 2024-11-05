@@ -56,10 +56,10 @@
       
       !is there any difference in the below expressions? I think no?
       
-      !g%hstag(1,:) = (g%roe(1,:) + g%p(1,:)) / bcs%ro
+      g%hstag(1,:) = (g%roe(1,:) + g%p(1,:)) / bcs%ro
       !g%hstag(1,:) = (g%roe(1,:) + bcs%ro * av%rgas * tstat) / bcs%ro
       !g%hstag(1,:) = av%cp*tstat + 0.5*vel**2
-      g%hstag(1,:) = av%cp*bcs%tstag
+      !g%hstag(1,:) = av%cp*bcs%tstag
       
       
 !     For the outlet boundary condition set the value of "p(ni,:)" to the
