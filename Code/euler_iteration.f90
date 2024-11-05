@@ -22,10 +22,10 @@
 !     the facets in both the i and j-directions. Store these values in
 !     "mass_i" and "mass_j"
       mass_i = ((g%rovx(:,1:nj-1)+g%rovx(:,2:nj))*g%lx_i + &
-                (g%rovy(:,1:nj-1)+g%rovy(:,2:nj))*g%ly_i) / 2
+                (g%rovy(:,1:nj-1)+g%rovy(:,2:nj))*g%ly_i) / 2.0
       
       mass_j = ((g%rovx(1:ni-1,:)+g%rovx(2:ni,:))*g%lx_j + &
-                (g%rovy(1:ni-1,:)+g%rovy(2:ni,:))*g%ly_j) / 2
+                (g%rovy(1:ni-1,:)+g%rovy(2:ni,:))*g%ly_j) / 2.0
      
 !     Apply the wall boundary condition by checking that two nodes at the
 !     end of a facet are both on a wall, if so then the appropriate mass
@@ -39,28 +39,28 @@
 !     Setup the conservation of energy equation by calculated the enthalpy flux
 !     and storing the values in "flux_i" and "flux_j", you will need "mass_i"
 !     and "mass_j" from before
-      flux_i = (g%hstag(:,1:nj-1) + g%hstag(:,2:nj)) * mass_i / 2
-      flux_j = (g%hstag(1:ni-1,:) + g%hstag(2:ni,:)) * mass_j / 2
+      flux_i = (g%hstag(:,1:nj-1) + g%hstag(:,2:nj)) * mass_i / 2.0
+      flux_j = (g%hstag(1:ni-1,:) + g%hstag(2:ni,:)) * mass_j / 2.0
 
 !     Update the internal energy with enthalpy fluxes
       call sum_fluxes(av,flux_i,flux_j,g%area,g%roe,g%droe)
 
 !     Setup the x-momentum equation including momentum flux and pressure forces
       flux_i = ( mass_i*(g%vx(:,1:nj-1) + g%vx(:,2:nj)) + &
-                (g%p(:,1:nj-1) + g%p(:,2:nj))*g%lx_i ) / 2
+                (g%p(:,1:nj-1) + g%p(:,2:nj))*g%lx_i ) / 2.0
                 
       flux_j = ( mass_j*(g%vx(1:ni-1,:) + g%vx(2:ni,:)) + &
-                (g%p(1:ni-1,:) + g%p(2:ni,:))*g%lx_j ) / 2
+                (g%p(1:ni-1,:) + g%p(2:ni,:))*g%lx_j ) / 2.0
 
 !     Update the x-momentum with momentum flux
       call sum_fluxes(av,flux_i,flux_j,g%area,g%rovx,g%drovx)
 
 !     Setup the y-momentum equation including momentum flux and pressure forces
       flux_i = ( mass_i*(g%vy(:,1:nj-1) + g%vy(:,2:nj)) + &
-                (g%p(:,1:nj-1) + g%p(:,2:nj))*g%ly_i ) / 2
+                (g%p(:,1:nj-1) + g%p(:,2:nj))*g%ly_i ) / 2.0
                 
       flux_j = ( mass_j*(g%vy(1:ni-1,:) + g%vy(2:ni,:)) + &
-                (g%p(1:ni-1,:) + g%p(2:ni,:))*g%ly_j ) / 2
+                (g%p(1:ni-1,:) + g%p(2:ni,:))*g%ly_j ) / 2.0
 
 !     Update the y-momentum with momentum flux
       call sum_fluxes(av,flux_i,flux_j,g%area,g%rovy,g%drovy)

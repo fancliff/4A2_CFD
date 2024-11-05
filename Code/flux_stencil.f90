@@ -36,17 +36,17 @@
 !     interior grid point receives one quarter of the change from each of the 
 !     four cells adjacent to it.
       dnode(2:ni-1,2:nj-1) = ( dcell(2:ni-1,2:nj-1) + dcell(1:ni-2,2:nj-1) & 
-                             + dcell(2:ni-1,1:nj-2) + dcell(1:ni-2,1:nj-2) ) / 4
+                             + dcell(2:ni-1,1:nj-2) + dcell(1:ni-2,1:nj-2) ) / 4.0
 
 !     Bounding edge nodes do not have four adjacent cells and so must be treated
 !     differently, they only recieve half the change from each of the two
 !     adjacent cells. Distribute the changes for the "i = 1 & ni" edges as well
 !     as the "j = 1 & nj" edges. 
-      dnode(1,2:nj-1) = (dcell(1,2:nj-1) + dcell(1,1:nj-2)) / 2
-      dnode(ni,2:nj-1) = (dcell(ni-1,2:nj-1) + dcell(ni-1,1:nj-2)) / 2
+      dnode(1,2:nj-1) = (dcell(1,2:nj-1) + dcell(1,1:nj-2)) / 2.0
+      dnode(ni,2:nj-1) = (dcell(ni-1,2:nj-1) + dcell(ni-1,1:nj-2)) / 2.0
       
-      dnode(2:ni-1,1) = (dcell(2:ni-1,1) + dcell(1:ni-2,1)) / 2
-      dnode(2:ni-1,nj) = (dcell(2:ni-1,nj-1) + dcell(1:ni-2,nj-1)) / 2
+      dnode(2:ni-1,1) = (dcell(2:ni-1,1) + dcell(1:ni-2,1)) / 2.0
+      dnode(2:ni-1,nj) = (dcell(2:ni-1,nj-1) + dcell(1:ni-2,nj-1)) / 2.0
 
 !     Finally distribute the changes to be to the four bounding corner points, 
 !     these receive the full change from the single cell of which they form one 

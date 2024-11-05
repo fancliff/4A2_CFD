@@ -22,7 +22,7 @@
 !     wish to define some intermediate variables to improve readability.
       g%vx = g%rovx / g%ro
       g%vy = g%rovy / g%ro
-      g%p = (av%gam - 1) * (g%roe - (g%ro * hypot(g%vx,g%vy)**2) / 2)
+      g%p = (av%gam - 1) * (g%roe - (g%ro * hypot(g%vx,g%vy)**2) / 2.0)
       g%hstag = (g%roe + g%p) / g%ro
 
       end subroutine set_secondary
