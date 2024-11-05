@@ -59,7 +59,7 @@
       g%vy(1,:) = vel * sin(bcs%alpha)
       
       
-      !is there any difference in the below expressions. I don't think so .....
+      !is there any difference in the below expressions? I think no?
       
       g%hstag(1,:) = (g%roe(1,:) + p) / bcs%ro
       !g%hstag(1,:) = (g%roe(1,:) + bcs%ro * av%rgas * tstat) / bcs%ro
