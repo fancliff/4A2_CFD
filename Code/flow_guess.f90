@@ -28,7 +28,7 @@
 !     Assuming isentropic flow to the the exit plane calculate the static
 !     temperature and the exit velocity
       t_out = bcs%tstag * (bcs%p_out / bcs%pstag)**av%fgam
-      v_out = sqrt(2 * av%cp * (bcs%tstag - t_out))
+      v_out = sqrt(2.0 * av%cp * (bcs%tstag - t_out))
       ro_out = bcs%p_out / (av%rgas * t_out)
 
 !     Determine which guess calcation method to use by the value of "guesstype"
@@ -36,11 +36,11 @@
 
 !         Store the exit density and internal energy as if they were uniform 
           g%ro = ro_out 
-          g%roe  = g%ro * (av%cv * t_out + 0.5 * v_out**2)
+          g%roe  = g%ro * (av%cv * t_out + 0.5 * v_out**2.0)
 
 !         Calculate the gradient of the mesh lines in the centre of the domain
 !         to determine the assumed direction of the flow
-          j_mid = nj / 2
+          j_mid = nj / 2.0
           do i = 1,ni-1
               lx = g%lx_j(i,j_mid); ly = g%ly_j(i,j_mid); 
               l = hypot(lx,ly)
