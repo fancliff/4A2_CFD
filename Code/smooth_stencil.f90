@@ -39,7 +39,7 @@
                            + 2.0*prop(2,2:nj-1) - prop(3,2:nj-1) ) / 3.0
 
       prop_avg(ni,2:nj-1) = ( prop(ni,1:nj-2) + prop(ni,3:nj) &
-                           + 2.0*prop(ni-1,2:nj-1) - prop(ni-2,2:nj-1) ) / 3.0                          
+                           + 2.0*prop(ni-1,2:nj-1) - prop(ni-2,2:nj-1) ) / 3.0                     
 
       prop_avg(2:ni-1,1) = ( prop(3:ni,1) + prop(1:ni-2,1) &
                            + 2.0*prop(2:ni-1,2) - prop(2:ni-1,3) ) / 3.0

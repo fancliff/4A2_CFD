@@ -45,14 +45,14 @@
       
       !why does an extra ro (before v^2) give the correct answer - only for bend and bump - broken again for tunnel
       
-      g%roe(1,:) = bcs%ro * (av%cv*tstat + 0.5 * vel**2)
+      g%roe(1,:) = bcs%ro * (av%cv*tstat + 0.5 * vel*vel)
       !g%roe(1,:) = bcs%ro * (av%cv*tstat + 0.5 * bcs%ro * vel**2)
       
       
       !NaN error if we set p in this expression and also extra bcs%ro in the above expression for roe???
       !yet using the same expression for p in expression for hstag is apparently fine????
       
-      p = bcs%ro * av%rgas * tstat
+      g%p(1,:) = bcs%ro * av%rgas * tstat
       
       
       g%vx(1,:) = vel * cos(bcs%alpha)
@@ -61,10 +61,10 @@
       
       !is there any difference in the below expressions? I think no?
       
-      g%hstag(1,:) = (g%roe(1,:) + p) / bcs%ro
+      !g%hstag(1,:) = (g%roe(1,:) + g%p(1,:)) / bcs%ro
       !g%hstag(1,:) = (g%roe(1,:) + bcs%ro * av%rgas * tstat) / bcs%ro
       !g%hstag(1,:) = av%cp*tstat + 0.5*vel**2
-      !g%hstag(1,:) = av%cp*bcs%tstag
+      g%hstag(1,:) = av%cp*bcs%tstag
       
       
 !     For the outlet boundary condition set the value of "p(ni,:)" to the
