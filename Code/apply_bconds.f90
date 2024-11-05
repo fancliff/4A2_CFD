@@ -37,11 +37,11 @@
 !     "ro(:)", "pstag", "tstag" and "alpha". Also set "vx(1,:)", "vy(1,:)" and 
 !     "hstag(1,:)"
       tstat = bcs%tstag * (bcs%ro/bcs%rostag)**(av%gam-1)
-      vel = sqrt( 2.0 * av%cp * (bcs%tstag-tstat) )
-
-      g%rovx(1,:) = bcs%ro * vel * cos(bcs%alpha)
-      g%rovy(1,:) = bcs%ro * vel * sin(bcs%alpha)
-      
+      vel = sqrt( 2.0 * av%cp * (bcs%tstag - tstat) )
+      g%vx(1,:) = vel * cos(bcs%alpha)
+      g%vy(1,:) = vel * sin(bcs%alpha)
+      g%rovx(1,:) = bcs%ro * g%vx(1,:)
+      g%rovy(1,:) = bcs%ro * g%vy(1,:)
       
       !why does an extra ro (before v^2) give the correct answer - only for bend and bump - broken again for tunnel
       
@@ -53,11 +53,6 @@
       !yet using the same expression for p in expression for hstag is apparently fine????
       
       g%p(1,:) = bcs%ro * av%rgas * tstat
-      
-      
-      g%vx(1,:) = vel * cos(bcs%alpha)
-      g%vy(1,:) = vel * sin(bcs%alpha)
-      
       
       !is there any difference in the below expressions? I think no?
       
