@@ -30,8 +30,8 @@
 !     Apply the wall boundary condition by checking that two nodes at the
 !     end of a facet are both on a wall, if so then the appropriate mass
 !     flow array is set to have zero flow through that facet
-      where(g%wall(1:ni-1,:) .and. g%wall(2:ni,:)) mass_j = 0 
-      where(g%wall(:,1:nj-1) .and. g%wall(:,2:nj)) mass_i = 0 
+      where(g%wall(1:ni-1,:) .and. g%wall(2:ni,:)) mass_j = 0.0
+      where(g%wall(:,1:nj-1) .and. g%wall(:,2:nj)) mass_i = 0.0
 
 !     Update the density with mass fluxes by calling "sum_fluxes"
       call sum_fluxes(av,mass_i,mass_j,g%area,g%ro,g%dro)
