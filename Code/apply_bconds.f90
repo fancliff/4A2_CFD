@@ -45,7 +45,7 @@
       
       !why does an extra ro (before v^2) give the correct answer - only for bend and bump - broken again for tunnel
       
-      g%roe(1,:) = bcs%ro * (av%cv*tstat + 0.5 * vel**2)
+      g%roe(1,:) = bcs%ro * (av%cv*tstat + 0.5 * vel**2.0)
       !g%roe(1,:) = bcs%ro * (av%cv*tstat + 0.5 * bcs%ro * vel**2)
       
       

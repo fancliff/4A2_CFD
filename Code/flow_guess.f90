@@ -86,11 +86,9 @@
 !             5. Calculate the density throughout "ro_guess(i)"
 !             6. Update the estimate of the velocity "v_guess(i)" 
           v_guess = mdot / ( ro_out * l_i )
-          t_guess = max(t_lim, bcs%tstag - (v_guess**2)/(2.0*av%cp))
+          t_guess = max(t_lim, bcs%tstag - (v_guess**2.0)/(2.0*av%cp))
           ro_guess = bcs%pstag * (t_guess/bcs%tstag)**(av%gam/(av%gam-1.0)) & 
           					/ (av%rgas * t_guess)
-          !ro_guess = bcs%pstag * (t_guess/bcs%tstag)**(av%fgam) & 
-          !					/ (av%rgas * t_guess)
           v_guess = mdot / ( ro_guess * l_i )
 
 !         Direct the calculated velocity to be parallel to the "j = const"
@@ -103,7 +101,7 @@
           dl = hypot(dx,dy)
           do i = 1,ni-1
               g%ro(i,:) = ro_guess(i)
-              g%roe(i,:) = ro_guess(i) * (av%cv * t_guess(i) + 0.5 * v_guess(i)**2)
+              g%roe(i,:) = ro_guess(i) * (av%cv * t_guess(i) + 0.5 * v_guess(i)**2.0)
               g%rovx(i,:) = g%ro(i,:) * v_guess(i) * dy(i,:) / dl(i,:)
               g%rovy(i,:) = -g%ro(i,:) * v_guess(i) * dx(i,:) / dl(i,:)
           end do					
