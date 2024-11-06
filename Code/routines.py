@@ -26,11 +26,11 @@ def calc_secondary(av,b):
     b['vx'] = b['rovx']/b['ro']
     b['vy'] = b['rovy']/b['ro']
     Vsq = b['vx']**2 + b['vy']**2
-    b['p'] = (gm1) * ( b['roe'] - (b['ro']*Vsq/2) )
+    b['p'] = (gm1) * ( b['roe'] - (b['ro']*Vsq/2.0) )
     b['hstag'] = (b['roe'] + b['p']) / b['ro'] #constant if adibatic and no work
     Msq =  Vsq / (gm*b['p']/b['ro']) #asssume ideal gas RT = p/ro
     b['mach'] = Msq ** 0.5
-    comp_term = 1 + gm1*Msq/2
+    comp_term = 1.0 + gm1*Msq/2
     b['tstag'] = av['tstag'] # assume adiabatic flow
     b['t'] = b['tstag'] / comp_term
     b['pstag'] = b['p'] * comp_term ** (gm/gm1)
@@ -40,7 +40,7 @@ def calc_secondary(av,b):
     #what is a suitable reference value
     #hstag - Vsq/2 ??? not compressible relation ???
     b['h'] = av['cp'] * b['t'] #+ho??
-    b['s'] = av['cp'] * np.log(b['t']/300) - av['rgas'] * np.log(b['p']/100000)
+    b['s'] = av['cp'] * np.log(b['t']/300.0) - av['rgas'] * np.log(b['p']/100000.0)
     #perfect gas assumption and reference entropy = 0 at (300K, 1bar)
     
 

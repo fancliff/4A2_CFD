@@ -74,7 +74,7 @@
 !         Set a limit to the maximum allowable mach number in the initial
 !         guess, call this "mach_lim", calculate the corresponding temperature,
 !         called "t_lim"
-          mach_lim = 0.9
+          mach_lim = 0.999
           t_lim = mach_lim**2.0 / (av%gam * av%rgas)
 
 !         Now estimate the velocity and density at every "i = const" line, call 
@@ -86,8 +86,8 @@
 !             5. Calculate the density throughout "ro_guess(i)"
 !             6. Update the estimate of the velocity "v_guess(i)" 
           v_guess = mdot / ( ro_out * l_i )
-          t_guess = max(t_lim, bcs%tstag - (v_guess**2.0)/(2.0*av%cp))
-          ro_guess = bcs%pstag * (t_guess/bcs%tstag)**(av%gam/(av%gam-1.0)) & 
+          t_guess = max(t_lim, (bcs%tstag - (v_guess**2.0)/(2.0*av%cp)))
+          ro_guess = bcs%pstag * (t_guess/bcs%tstag)**(1/av%fgam) & 
           					/ (av%rgas * t_guess)
           v_guess = mdot / ( ro_guess * l_i )
 
