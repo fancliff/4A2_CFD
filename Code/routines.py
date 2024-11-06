@@ -36,10 +36,7 @@ def calc_secondary(av,b):
     b['pstag'] = b['p'] * comp_term ** (gm/gm1)
     b['alpha'] = np.degrees(np.arctan2(b['vy'], b['vx']))
 
-    #complete and check expressions for enthalpy and entropy
-    #what is a suitable reference value
-    #hstag - Vsq/2 ??? not compressible relation ???
-    b['h'] = av['cp'] * b['t'] #+ho??
+    b['h'] = av['cp'] * b['t'] 
     b['s'] = av['cp'] * np.log(b['t']/300.0) - av['rgas'] * np.log(b['p']/100000.0)
     #perfect gas assumption and reference entropy = 0 at (300K, 1bar)
     
