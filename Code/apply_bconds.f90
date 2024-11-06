@@ -45,6 +45,8 @@
       g%roe(1,:) = bcs%ro * (av%cv*tstat + 0.5 * vel**2.0)
       g%p(1,:) = bcs%ro * av%rgas * tstat
       
+      !below expressions are equivalent for a perfect gas
+      !safe to assume tstag = const as no heat or work I/O
       !g%hstag(1,:) = (g%roe(1,:) + g%p(1,:)) / bcs%ro
       g%hstag(1,:) = av%cp*bcs%tstag
       
