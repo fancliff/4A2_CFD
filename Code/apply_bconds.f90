@@ -13,7 +13,7 @@
       type(t_bconds), intent(inout) :: bcs
 
 !     Declare the other variables you need here
-      real, dimension(g%nj) :: tstat, vel, p
+      real, dimension(g%nj) :: tstat, vel
 
 !     At the inlet boundary the change in density is driven towards "rostag",
 !     which is then used to obtain the other flow properties to match the
