@@ -13,7 +13,7 @@
       type(t_bconds), intent(inout) :: bcs
 
 !     Declare the other variables you need here
-      real, dimension(g%nj) :: tstat, vel
+      real, dimension(g%nj) :: tstat, vel, p
 
 !     At the inlet boundary the change in density is driven towards "rostag",
 !     which is then used to obtain the other flow properties to match the
@@ -42,19 +42,10 @@
       g%vy(1,:) = vel * sin(bcs%alpha)
       g%rovx(1,:) = bcs%ro * vel * cos(bcs%alpha)
       g%rovy(1,:) = bcs%ro * vel * sin(bcs%alpha)
-      
-      !why does an extra ro (before v^2) give the correct answer - only for bend and bump - broken again for tunnel
-      
       g%roe(1,:) = bcs%ro * (av%cv*tstat + 0.5 * vel**2.0)
-      !g%roe(1,:) = bcs%ro * (av%cv*tstat + 0.5 * bcs%ro * vel**2)
-      
       g%p(1,:) = bcs%ro * av%rgas * tstat
       
-      !is there any difference in the below expressions? I think no?
-      
       !g%hstag(1,:) = (g%roe(1,:) + g%p(1,:)) / bcs%ro
-      !g%hstag(1,:) = (g%roe(1,:) + bcs%ro * av%rgas * tstat) / bcs%ro
-      !g%hstag(1,:) = av%cp*tstat + 0.5*vel**2
       g%hstag(1,:) = av%cp*bcs%tstag
       
       
