@@ -36,11 +36,11 @@
 
 !         Store the exit density and internal energy as if they were uniform 
           g%ro = ro_out 
-          g%roe  = g%ro * (av%cv * t_out + 0.5 * v_out**2.0)
+          g%roe  = g%ro * (av%cv * t_out + 0.5 * v_out**2)
 
 !         Calculate the gradient of the mesh lines in the centre of the domain
 !         to determine the assumed direction of the flow
-          j_mid = nj / 2.0
+          j_mid = nj / 2
           do i = 1,ni-1
               lx = g%lx_j(i,j_mid); ly = g%ly_j(i,j_mid); 
               l = hypot(lx,ly)
@@ -74,8 +74,8 @@
 !         Set a limit to the maximum allowable mach number in the initial
 !         guess, call this "mach_lim", calculate the corresponding temperature,
 !         called "t_lim"
-          mach_lim = 0.999
-          t_lim = mach_lim**2.0 / (av%gam * av%rgas)
+          mach_lim = 0.9999
+          t_lim = bcs%tstag / (1.0 + 0.5 * (av%gam-1.0) * mach_lim**2)
 
 !         Now estimate the velocity and density at every "i = const" line, call 
 !         the velocity "v_guess(i)" and the density "ro_guess(i)":
@@ -86,8 +86,8 @@
 !             5. Calculate the density throughout "ro_guess(i)"
 !             6. Update the estimate of the velocity "v_guess(i)" 
           v_guess = mdot / ( ro_out * l_i )
-          t_guess = max(t_lim, (bcs%tstag - (v_guess**2.0)/(2.0*av%cp)))
-          ro_guess = bcs%pstag * (t_guess/bcs%tstag)**(1/av%fgam) & 
+          t_guess = max(t_lim, (bcs%tstag - (v_guess**2)/(2.0*av%cp)))
+          ro_guess = bcs%pstag * (t_guess/bcs%tstag)**(1.0/av%fgam) & 
           					/ (av%rgas * t_guess)
           v_guess = mdot / ( ro_guess * l_i )
 
