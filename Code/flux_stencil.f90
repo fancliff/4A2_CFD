@@ -53,7 +53,6 @@
 !     corner.
       dnode([1,ni],[1,nj]) = dcell([1,ni-1],[1,nj-1])
 
-
 !     Update the solution by adding the changes at the nodes "dnode" to the flow
 !     property "prop"
       prop = prop + dnode
