@@ -43,6 +43,13 @@ def main():
     # Show all the plots
     plt.show()
 
+    max_max_d = max(l['dro_max'][-1],l['droe_max'][-1],l['drovx_max'][-1],l['drovy_max'][-1])
+    max_avg_d = max(l['dro_avg'][-1],l['droe_avg'][-1],l['drovx_avg'][-1],l['drovy_avg'][-1])
+
+    print('')
+    print(f'Maximum max residual: {max_max_d}')
+    print(f'Maximum avg residual: {max_avg_d}\n')
+
     
 main()
 
