@@ -31,7 +31,7 @@ def calc_secondary(av,b):
     Msq =  Vsq / (gm*b['p']/b['ro']) #asssume ideal gas RT = p/ro
     b['mach'] = Msq ** 0.5
     comp_term = 1.0 + gm1*Msq/2
-    b['tstag'] = av['tstag'] # assume adiabatic flow
+    b['tstag'] = b['hstag']/av['cp']
     b['t'] = b['tstag'] / comp_term
     b['pstag'] = b['p'] * comp_term ** (gm/gm1)
     b['alpha'] = np.degrees(np.arctan2(b['vy'], b['vx']))

@@ -34,8 +34,20 @@ def main():
     g_inlet = cut_i(g,0)
     pstag_ref,_ = mass_av(g_inlet,'pstag')
     p_ref,_ = area_av(g_inlet,'p')
+    tstag_ref,mdot_ref = mass_av(g_inlet,'tstag')
+    mdot_ref = np.sum(mdot_ref)
+    #tstag_ref = av['tstag']
 
-    print(f'Reference static pressure: {p_ref:.0f}, Reference stagnation pressure: {pstag_ref:.0f}')
+    g_outlet = cut_i(g,g['ni']-1)
+    tstag_out,mdot_out = mass_av(g_outlet,'tstag')
+    mdot_out = np.sum(mdot_out)
+    tstag_out_in = tstag_out/tstag_ref
+    mdot_out_in = mdot_out/mdot_ref
+    
+    print('')
+    print(f'Reference static pressure: {p_ref:.0f}, Reference stagnation pressure: {pstag_ref:.0f}\n')
+    print(f'T0exit/T0in: {tstag_out_in:.4f}')
+    print(f'Mdot_exit/Mdot_in: {mdot_out_in:.4f}\n')
 
     g['cp'] = (g['p'] - p_ref)/(pstag_ref-p_ref)
 
