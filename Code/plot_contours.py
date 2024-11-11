@@ -50,10 +50,11 @@ def main():
     print(f'Mdot_exit/Mdot_in: {mdot_out_in:.4f}\n')
 
     g['cp'] = (g['p'] - p_ref)/(pstag_ref-p_ref)
+    g['cpstag'] = (g['pstag'] - pstag_ref)/(pstag_ref-p_ref)
 
     # Specify the parameters to plot
-    fieldnames = ['cp', 'mach']; 
-    colnames = ['Static pressure coefficient','Mach number']
+    fieldnames = ['cp', 'mach','cpstag']; 
+    colnames = ['Static pressure coefficient','Mach number','Stagnation pressure coefficient']
 
     # Plot the calculated non-dimensional parameters to show the flow solution
     for n,name in enumerate(fieldnames):
