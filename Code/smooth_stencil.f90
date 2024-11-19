@@ -34,8 +34,8 @@
       sf4 = 0.8
 !      fourth_smooth = .true.
       fourth_smooth = .false.
-      local_smooth = .true.
-!      local_smooth = .false.
+!      local_smooth = .true.
+      local_smooth = .false.
 
 !     Get the block size and store locally for convenience
       ni = size(prop,1); nj = size(prop,2)
@@ -80,7 +80,7 @@
 
 
 
-!     i direction - central:
+!         i direction - central:
           prop_avg_4_i(3:ni-2,1:nj) = - 1/6 * prop(1:ni-4,1:nj) &
                                       + 2/3 * prop(2:ni-3,1:nj) &
                                       + 2/3 * prop(4:ni-1,1:nj) &
@@ -88,13 +88,13 @@
 
 
 
-!     j direction - central:
+!         j direction - central:
           prop_avg_4_j(1:ni,3:nj-2) = - 1/6 * prop(1:ni,1:nj-4) &
                                       + 2/3 * prop(1:ni,2:nj-3) &
                                       + 2/3 * prop(1:ni,4:nj-1) &
                                       - 1/6 * prop(1:ni,5:nj  )
 
-!      i direction - semi one-sided:
+!         i direction - semi one-sided:
           prop_avg_4_i(2,1:nj) = + 1/4 * prop(1,1:nj) &
                                  + 3/2 * prop(3,1:nj) &
                                  - 1   * prop(4,1:nj) &
@@ -108,7 +108,7 @@
 
 
 
-!      j direction - semi one-sided:
+!         j direction - semi one-sided:
           prop_avg_4_j(1:ni,2) = + 1/4 * prop(1:ni,1) &
                                  + 3/2 * prop(1:ni,3) &
                                  - 1   * prop(1:ni,4) &
@@ -119,7 +119,7 @@
                                     - 1   * prop(1:ni,nj-3) &
                                     + 1/4 * prop(1:ni,nj-4)
 
-!     i direction - full one-sided (not corners):                                           
+!         i direction - full one-sided (not corners):                                           
           prop_avg_4_i(1,2:nj-1) = + 4 * prop(2,2:nj-1) &
                                    - 6 * prop(3,2:nj-1) &
                                    + 4 * prop(4,2:nj-1) &
@@ -130,7 +130,7 @@
                                     + 4 * prop(ni-3,2:nj-1) &
                                     - 1 * prop(ni-4,2:nj-1)
                                     
-!     j direction - full one-sided (not corners):                                           
+!         j direction - full one-sided (not corners):                                           
           prop_avg_4_j(2:ni-1,1) = + 4 * prop(2:ni-1,2) &
                                    - 6 * prop(2:ni-1,3) &
                                    + 4 * prop(2:ni-1,4) &
@@ -141,12 +141,12 @@
                                     + 4 * prop(2:ni-1,nj-3) &
                                     - 1 * prop(2:ni-1,nj-4)
 
-!     Add the i and j direction contributions together
+!         Add the i and j direction contributions together
           prop_avg_4 = prop_avg_4_i + prop_avg_4_j
           
 
       
-!     Corners currently not smoothed
+!         Corners currently not smoothed
           prop_avg_4([1,ni],[1,nj]) = prop([1,ni],[1,nj])
           
           write(6,*)
