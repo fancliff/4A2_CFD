@@ -24,9 +24,6 @@
       real :: d_max = 1, d_avg = 1
       integer :: nstep, nconv = 5, ncheck = 5
 
-!     Variables for Runge-Kutta scheme
-      integer :: nrkut, nrkuts = 4
-
 !     Read in the data on the run settings
       call read_settings(av,bcs)
 
@@ -95,29 +92,15 @@
 
 !         Update record of nstep to use in subroutines
           av%nstep = nstep
-          
-!         Record initital values for Runge-Kutta scheme
-          g%ro_start = g%ro
-          g%roe_start = g%roe
-          g%rovx_start = g%rovx
-          g%rovy_start = g%rovy
-          
-          do nrkut = 1,nrkuts
-              
-              !Set sub-step timestep as a fraction of the main timestep
-              av%dt = av%dt_total / (1 + nrkuts - nrkut)
 
-!             Calculate secondary flow variables used in conservation equations
-              call set_secondary(av,g)
+!         Calculate secondary flow variables used in conservation equations
+          call set_secondary(av,g)
 
-!             Apply inlet and outlet values at the boundaries of the domain
-              call apply_bconds(av,g,bcs)
+!         Apply inlet and outlet values at the boundaries of the domain
+          call apply_bconds(av,g,bcs)
 
-!             Perform the timestep to update the primary flow variables
-              call euler_iteration(av,g)
-          
-          end do
-
+!         Perform the timestep to update the primary flow variables
+          call euler_iteration(av,g)
 
 !         Write out summary every "nconv" steps and update "davg" and "dmax" 
           if(mod(av%nstep,nconv) == 0) then
