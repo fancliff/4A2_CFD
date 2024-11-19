@@ -8,7 +8,7 @@
 
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
-      subroutine smooth_array(av,prop)
+      subroutine smooth_array(av,prop,prop_ref)
 
 !     This subroutine smooths "prop" to stabilise the calculation, the basic 
 !     solver uses second order smoothing, many improvements are possible.
@@ -18,6 +18,7 @@
       implicit none
       type(t_appvars), intent(in) :: av
       real, intent(inout) :: prop(:,:)
+      real, intent(in) :: prop_ref
       real, dimension(size(prop,1),size(prop,2)) :: prop_avg_2, prop_avg_4_i, prop_avg_4_j, prop_avg_4, sfac_loc
       integer :: ni, nj
       real :: sf2, sf4
