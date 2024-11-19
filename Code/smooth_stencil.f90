@@ -32,10 +32,10 @@
 !     sf2 and sf4 must add up to 1
       sf2 = 0.2
       sf4 = 0.8
-      fourth_smooth = .true.
+!      fourth_smooth = .true.
 !      fourth_smooth = .false.
-!      local_smooth = .true.
-      local_smooth = .false.
+      local_smooth = .true.
+!      local_smooth = .false.
 
 !     Get the block size and store locally for convenience
       ni = size(prop,1); nj = size(prop,2)
@@ -166,7 +166,16 @@
 !     of the surrounding values. 
       
       if (local_smooth) then
-          sfac_loc = av%sfac * abs(prop(:,:) - prop_avg_2(:,:)) / prop_ref
+          sfac_loc = av%sfac * abs(prop - prop_avg_2) / prop_ref
+          
+          write(6,*)
+          write(6,*)
+          write(6,*) prop_ref
+          write(6,*)
+          write(6,*) prop - prop_avg_2
+          write(6,*)
+          write(6,*)
+          
       else
           sfac_loc(:,:) = av%sfac
       end if
