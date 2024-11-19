@@ -33,7 +33,7 @@
       sf2 = 0.2
       sf4 = 0.8
 !      fourth_smooth = .true.
-!      fourth_smooth = .false.
+      fourth_smooth = .false.
       local_smooth = .true.
 !      local_smooth = .false.
 
