@@ -61,6 +61,8 @@
 
 !     The corner values are not currently smoothed
       prop_avg_2([1,ni],[1,nj]) = prop([1,ni],[1,nj])
+
+
       
 !     4TH ORDER SMOOTHING
 !     Only calculate if needed by checking fourth_smooth
@@ -131,6 +133,8 @@
           prop_avg_4([1,ni],[1,nj]) = prop([1,ni],[1,nj]) 
           
       end if
+
+
 
 !     Now apply the artificial viscosity by smoothing "prop" towards "prop_avg",
 !     take (1-sfac) * the calculated value of the property + sfac * the average 
