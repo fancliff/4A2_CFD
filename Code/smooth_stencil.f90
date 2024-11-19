@@ -19,7 +19,11 @@
       type(t_appvars), intent(in) :: av
       real, intent(inout) :: prop(:,:)
       real, intent(in) :: prop_ref
-      real, dimension(size(prop,1),size(prop,2)) :: prop_avg_2, prop_avg_4_i, prop_avg_4_j, prop_avg_4, sfac_loc
+      real, dimension(size(prop,1),size(prop,2)) :: prop_avg_2
+      real, dimension(size(prop,1),size(prop,2)) :: prop_avg_4_i
+      real, dimension(size(prop,1),size(prop,2)) :: prop_avg_4_j
+      real, dimension(size(prop,1),size(prop,2)) :: prop_avg_4
+      real, dimension(size(prop,1),size(prop,2)) :: sfac_loc
       integer :: ni, nj
       real :: sf2, sf4
       logical :: local_smooth, fourth_smooth
@@ -28,11 +32,15 @@
 !     sf2 and sf4 must add up to 1
       sf2 = 0.2
       sf4 = 0.8
-      fourth_smooth = .false.
+      fourth_smooth = .true.
+!      fourth_smooth = .false.
+!      local_smooth = .true.
       local_smooth = .false.
 
 !     Get the block size and store locally for convenience
       ni = size(prop,1); nj = size(prop,2)
+      
+
 
 !     2ND ORDER SMOOTHING
 
@@ -70,11 +78,15 @@
       
       if (fourth_smooth) then
 
+
+
 !     i direction - central:
-          prop_avg_4_i(3:ni-2,1:nj) = - 1/6 * prop(1:ni-4,1:nj) & 
+          prop_avg_4_i(3:ni-2,1:nj) = - 1/6 * prop(1:ni-4,1:nj) &
                                       + 2/3 * prop(2:ni-3,1:nj) &
                                       + 2/3 * prop(4:ni-1,1:nj) &
                                       - 1/6 * prop(5:ni  ,1:nj)
+
+
 
 !     j direction - central:
           prop_avg_4_j(1:ni,3:nj-2) = - 1/6 * prop(1:ni,1:nj-4) &
@@ -92,6 +104,9 @@
                                     + 3/2 * prop(ni-2,1:nj) &
                                     - 1   * prop(ni-3,1:nj) &
                                     + 1/4 * prop(ni-4,1:nj)                                 
+
+
+
 
 !      j direction - semi one-sided:
           prop_avg_4_j(1:ni,2) = + 1/4 * prop(1:ni,1) &
@@ -121,16 +136,26 @@
                                    + 4 * prop(2:ni-1,4) &
                                    - 1 * prop(2:ni-1,5)
                                    
-          prop_avg_4_j(2:ni-1,nj) = + 4 * prop(2:ni-1,2) &
-                                    - 6 * prop(2:ni-1,3) &
-                                    + 4 * prop(2:ni-1,4) &
-                                    - 1 * prop(2:ni-1,5)
+          prop_avg_4_j(2:ni-1,nj) = + 4 * prop(2:ni-1,nj-1) &
+                                    - 6 * prop(2:ni-1,nj-2) &
+                                    + 4 * prop(2:ni-1,nj-3) &
+                                    - 1 * prop(2:ni-1,nj-4)
 
 !     Add the i and j direction contributions together
           prop_avg_4 = prop_avg_4_i + prop_avg_4_j
+          
+
       
 !     Corners currently not smoothed
-          prop_avg_4([1,ni],[1,nj]) = prop([1,ni],[1,nj]) 
+          prop_avg_4([1,ni],[1,nj]) = prop([1,ni],[1,nj])
+          
+          write(6,*)
+          write(6,*)
+          write(6,*) prop_ref
+          write(6,*)
+          write(6,*) prop_avg_4(3:ni-2,3:nj-2)
+          write(6,*)
+          write(6,*)
           
       end if
 
@@ -141,7 +166,7 @@
 !     of the surrounding values. 
       
       if (local_smooth) then
-          sfac_loc = av%sfac * abs(prop - prop_avg_2) / prop_ref
+          sfac_loc = av%sfac * abs(prop(:,:) - prop_avg_2(:,:)) / prop_ref
       else
           sfac_loc(:,:) = av%sfac
       end if
@@ -150,7 +175,7 @@
           prop = (1 - sfac_loc) * prop + sfac_loc * &
                                 ( sf2 * prop_avg_2 + sf4 * prop_avg_4 )
       else
-          prop = (1 - sfac_loc) * prop + sfac_loc * prop_avg_2
+          prop = (prop(:,:) - sfac_loc(:,:) * prop(:,:)) + sfac_loc(:,:) * prop_avg_2(:,:)
       end if
 
       end subroutine smooth_array
