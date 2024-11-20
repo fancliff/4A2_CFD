@@ -25,12 +25,12 @@
       integer :: nstep, nconv = 5, ncheck = 5
 
 !     Variables for Runge-Kutta scheme
-      integer :: nrkut, nrkuts 
-      nrkuts = av%nrkuts
+      integer :: nrkut
+      
 
 !     Read in the data on the run settings
       call read_settings(av,bcs)
-
+      
 !     Determine whether to generate the mesh within this Fortran program or read
 !     it directly from a binary file written in Python
       if(av%ni /= -1) then
@@ -104,10 +104,10 @@
           g%rovy_start = g%rovy
           
           
-          do nrkut = 1,nrkuts
+          do nrkut = 1, av%nrkuts
               
               !Set sub-step timestep as a fraction of the main timestep
-              av%dt = av%dt_total / (1 + nrkuts - nrkut)
+              av%dt = av%dt_total / (1 + av%nrkuts - nrkut)
 
 !             Calculate secondary flow variables used in conservation equations
               call set_secondary(av,g)
