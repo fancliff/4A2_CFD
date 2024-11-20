@@ -72,7 +72,6 @@
 !     For Runge-Kutta add the increment to prop_start not prop directly 
       prop = prop_start + dnode
 
-
 !     Return dcell to first order accurate after use to calculate nodes
       dcell = dcell_first
       
