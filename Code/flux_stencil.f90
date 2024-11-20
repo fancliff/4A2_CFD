@@ -8,7 +8,7 @@
 
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
-      subroutine sum_fluxes(av,flux_i,flux_j,area,prop,dcell)
+      subroutine sum_fluxes(av,flux_i,flux_j,area,prop,prop_start,dcell)
 
 !     This subroutine sums the fluxes into each cell, calculates the change in 
 !     the cell property inside, distributes the change to the four nodes of the
@@ -20,6 +20,7 @@
       type(t_appvars), intent(in) :: av
       real, intent(in) :: flux_i(:,:), flux_j(:,:), area(:,:)
       real, intent(inout) :: prop(:,:)
+      real, intent(in) :: prop_start(:,:)
       real, intent(inout) :: dcell(:,:)
       real, dimension(size(prop,1),size(prop,2)) :: dnode
       real, dimension(size(dcell,1),size(dcell,2)) :: dcell_temp, dcell_first
@@ -66,7 +67,10 @@
 
 !     Update the solution by adding the changes at the nodes "dnode" to the flow
 !     property "prop"
-      prop = prop + dnode
+!     prop = prop + dnode
+
+!     For Runge-Kutta add the increment to prop_start not prop directly 
+      prop = prop_start + dnode
 
 
 !     Return dcell to first order accurate after use to calculate nodes
