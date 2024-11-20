@@ -18,13 +18,11 @@
 !     You should read in the following variables sequentially and store them in
 !     the dervived "av" datatype with the % syntax:
 !         gam, rgas
-!         cfl, sfac, d_max
-!	  facsec (for Crocco method), nrkuts (for Runge-Kutta)
+!         cfl, sfac, d_max, facsec (for Crocco method), nrkuts (for Runge-Kutta)
 !         nsteps
 !         ni, nj
       read(5,*) av%gam, av%rgas
-      read(5,*) av%cfl, av%sfac, av%d_max
-      read(5,*) av%facsec, av%nrkuts
+      read(5,*) av%cfl, av%sfac, av%d_max, av%facsec, av%nrkuts
       read(5,*) av%nsteps
       read(5,*) av%ni, av%nj
 
@@ -65,6 +63,7 @@
       write(6,*) '  rgas =', av%rgas, 'cp =', av%cp, 'cv =', av%cv
       write(6,*) '  CFL =', av%cfl, 'sfac =', av%sfac
       write(6,*) '  Convergence  d_max =', av%d_max
+      write(6,*) '  facsec =', av%facsec, 'nrkuts=', av%nrkuts
       write(6,*) '  Mesh size  ni =', av%ni, 'nj =', av%nj
       write(6,*) '  Inlet  pstag =', bcs%pstag, 'tstag =', bcs%tstag, &
           'alpha = ', bcs%alpha

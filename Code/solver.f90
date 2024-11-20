@@ -103,6 +103,7 @@
           g%rovx_start = g%rovx
           g%rovy_start = g%rovy
           
+          
           do nrkut = 1,nrkuts
               
               !Set sub-step timestep as a fraction of the main timestep
