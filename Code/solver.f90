@@ -25,7 +25,8 @@
       integer :: nstep, nconv = 5, ncheck = 5
 
 !     Variables for Runge-Kutta scheme
-      integer :: nrkut, nrkuts = 4
+      integer :: nrkut, nrkuts 
+      nrkuts = av%nrkuts
 
 !     Read in the data on the run settings
       call read_settings(av,bcs)

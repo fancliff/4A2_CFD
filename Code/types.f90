@@ -17,7 +17,8 @@
           real ::  cfl, sfac, dt, d_max, d_avg
           integer :: nsteps, nstep
 
-!         Total timestep for Runge-Kutta scheme
+!         Total timestep for Runge-Kutta scheme and nrkuts
+	  real :: nrkuts
           real :: dt_total
 
 !         Second order time derivative factor for Crocco method
