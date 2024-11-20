@@ -18,11 +18,11 @@
 !     You should read in the following variables sequentially and store them in
 !     the dervived "av" datatype with the % syntax:
 !         gam, rgas
-!         cfl, sfac, d_max
+!         cfl, sfac, d_max, facsec (for Crocco method)
 !         nsteps
 !         ni, nj
       read(5,*) av%gam, av%rgas
-      read(5,*) av%cfl, av%sfac, av%d_max
+      read(5,*) av%cfl, av%sfac, av%d_max, av%facsec
       read(5,*) av%nsteps
       read(5,*) av%ni, av%nj
 

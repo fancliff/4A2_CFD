@@ -20,6 +20,9 @@
 !         Total timestep for Runge-Kutta scheme
           real :: dt_total
 
+!         Second order time derivative factor for Crocco method
+          real :: facsec
+
 !         Reference values of the primary flow variables
           real :: ro_ref, roe_ref, rov_ref
 
