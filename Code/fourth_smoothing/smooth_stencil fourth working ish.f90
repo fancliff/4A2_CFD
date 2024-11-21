@@ -25,17 +25,7 @@
       real, dimension(size(prop,1),size(prop,2)) :: prop_avg_4
       real, dimension(size(prop,1),size(prop,2)) :: sfac_loc
       integer :: ni, nj
-      logical :: fourth_smooth, local_smooth
       real :: sf2, sf4
-      
-      
-      fourth_smooth = .true.
-!      fourth_smooth = .false.
-
-!      local smooth not working currently
-!      local_smooth = .true.
-!      local_smooth = .false.
-
       
 !     sf2 and sf4 are only used if 4th_smooth is true. 
       sf4 = av%sfac
@@ -79,30 +69,75 @@
 !     4TH ORDER SMOOTHING
 !     Only calculate if needed by checking fourth_smooth
 !     Work out i direction first then add j direction
-      if (fourth_smooth) then
-!	      edges second order
-	      prop_avg_4(:,:) = prop_avg_2(:,:)
-
+      
 !         i direction - central:
-	      prop_avg_4_i(3:ni-2,3:nj-2) = - 1.0/6.0 * prop(1:ni-4,3:nj-2) &
-		                          + 2.0/3.0 * prop(2:ni-3,3:nj-2) &
-		                          + 2.0/3.0 * prop(4:ni-1,3:nj-2) &
-		                          - 1.0/6.0 * prop(5:ni  ,3:nj-2)
+      prop_avg_4_i(3:ni-2,1:nj) = - 1.0/6.0 * prop(1:ni-4,1:nj) &
+                                  + 2.0/3.0 * prop(2:ni-3,1:nj) &
+                                  + 2.0/3.0 * prop(4:ni-1,1:nj) &
+                                  - 1.0/6.0 * prop(5:ni  ,1:nj)
 
 
 
 !         j direction - central:
-	      prop_avg_4_j(3:ni-2,3:nj-2) = - 1.0/6.0 * prop(3:ni-2,1:nj-4) &
-		                          + 2.0/3.0 * prop(3:ni-2,2:nj-3) &
-		                          + 2.0/3.0 * prop(3:ni-2,4:nj-1) &
-		                          - 1.0/6.0 * prop(3:ni-2,5:nj  )
+      prop_avg_4_j(1:ni,3:nj-2) = - 1.0/6.0 * prop(1:ni,1:nj-4) &
+                                  + 2.0/3.0 * prop(1:ni,2:nj-3) &
+                                  + 2.0/3.0 * prop(1:ni,4:nj-1) &
+                                  - 1.0/6.0 * prop(1:ni,5:nj  )
 
-	  
+!         i direction - semi one-sided:
+      prop_avg_4_i(2,1:nj) = + 1.0/4.0 * prop(1,1:nj) &
+                             + 3.0/2.0 * prop(3,1:nj) &
+                             - 1.0     * prop(4,1:nj) &
+                             + 1.0/4.0 * prop(5,1:nj)
+
+      prop_avg_4_i(ni-1,1:nj) = + 1.0/4.0 * prop(ni,1:nj)   &
+                                + 3.0/2.0 * prop(ni-2,1:nj) &
+                                - 1.0     * prop(ni-3,1:nj) &
+                                + 1.0/4.0 * prop(ni-4,1:nj)                                 
+
+
+
+
+!         j direction - semi one-sided:
+      prop_avg_4_j(1:ni,2) = + 1.0/4.0 * prop(1:ni,1) &
+                             + 3.0/2.0 * prop(1:ni,3) &
+                             - 1.0     * prop(1:ni,4) &
+                             + 1.0/4.0 * prop(1:ni,5)
+
+      prop_avg_4_j(1:ni,nj-1) = + 1.0/4.0 * prop(1:ni,nj)   &
+                                + 3.0/2.0 * prop(1:ni,nj-2) &
+                                - 1.0     * prop(1:ni,nj-3) &
+                                + 1.0/4.0 * prop(1:ni,nj-4)
+
+!         i direction - full one-sided (not corners):                                           
+      prop_avg_4_i(1,1:nj) = + 4.0 * prop(2,1:nj) &
+                               - 6.0 * prop(3,1:nj) &
+                               + 4.0 * prop(4,1:nj) &
+                               - 1.0 * prop(5,1:nj)
+                               
+      prop_avg_4_i(ni,1:nj) = + 4.0 * prop(ni-1,1:nj) &
+                                - 6.0 * prop(ni-2,1:nj) &
+                                + 4.0 * prop(ni-3,1:nj) &
+                                - 1.0 * prop(ni-4,1:nj)
+                                
+!         j direction - full one-sided (not corners):                                           
+      prop_avg_4_j(1:ni,1) = + 4.0 * prop(1:ni,2) &
+                               - 6.0 * prop(1:ni,3) &
+                               + 4.0 * prop(1:ni,4) &
+                               - 1.0 * prop(1:ni,5)
+                               
+      prop_avg_4_j(1:ni,nj) = + 4.0 * prop(1:ni,nj-1) &
+                                - 6.0 * prop(1:ni,nj-2) &
+                                + 4.0 * prop(1:ni,nj-3) &
+                                - 1.0 * prop(1:ni,nj-4)
 
 !         Add the i and j direction contributions together and divide by 2
-	      prop_avg_4(3:ni-2,3:nj-2) = (prop_avg_4_i(3:ni-2,3:nj-2) + prop_avg_4_j(3:ni-2,3:nj-2)) / 2.0
+      prop_avg_4 = (prop_avg_4_i + prop_avg_4_j) / 2.0
       
-      end if   
+
+  
+!         Corners currently not smoothed
+      prop_avg_4([1,ni],[1,nj]) = prop([1,ni],[1,nj])
 
 
 !     Now apply the artificial viscosity by smoothing "prop" towards "prop_avg",
@@ -110,13 +145,12 @@
 !     of the surrounding values. 
       
 
-      if (fourth_smooth) then	  
-          prop = (1 - sf2 -sf4) * prop + sf2 * prop_avg_2 + sf4 * prop_avg_4
-      else
-          prop = (1 - av%sfac) * prop + av%sfac * prop_avg_2
-      end if
-      
-!      prop = (1-sfac_loc)*prop + sfac_loc*prop_avg_4         
+!     sf2 = av%sfac * sf2
+!     sf4 = av%sfac * sf4	  
+      prop = (1 - sf2 - sf4) * prop + sf2 * prop_avg_2 + sf4 * prop_avg_4
+!      prop = (1 - sf2) * prop + sf2 * prop_avg_2
+!      sfac_loc = av%sfac * abs(prop-prop_avg_2) / prop_ref
+!      prop = (1-sfac_loc)*prop + sfac_loc*prop_avg_2         
           
 
       end subroutine smooth_array
