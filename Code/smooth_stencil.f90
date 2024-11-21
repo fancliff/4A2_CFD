@@ -141,8 +141,8 @@
                                     + 4 * prop(2:ni-1,nj-3) &
                                     - 1 * prop(2:ni-1,nj-4)
 
-!         Add the i and j direction contributions together
-          prop_avg_4 = prop_avg_4_i + prop_avg_4_j
+!         Add the i and j direction contributions together and divide by 2
+          prop_avg_4 = (prop_avg_4_i + prop_avg_4_j) / 2.0
           
 
       
