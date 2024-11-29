@@ -17,8 +17,8 @@
       logical :: fourth_flux
       
 !     set the parameter to switch between fourth order and second order flux
-!     fourth_flux = .true.
-      fourth_flux = .false.
+      fourth_flux = .true.
+!      fourth_flux = .false.
 
 !     Get the block size and store locally for convenience
       ni = g%ni; nj = g%nj
