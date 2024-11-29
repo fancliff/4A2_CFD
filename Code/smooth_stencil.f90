@@ -23,23 +23,23 @@
       real, dimension(size(prop,1),size(prop,2)) :: prop_avg_4_i
       real, dimension(size(prop,1),size(prop,2)) :: prop_avg_4_j
       real, dimension(size(prop,1),size(prop,2)) :: prop_avg_4
-      real, dimension(size(prop,1),size(prop,2)) :: sfac_loc
+      real, dimension(size(prop,1),size(prop,2)) :: sfac_loc, sf2, sf4
       integer :: ni, nj
       logical :: fourth_smooth, local_smooth
-      real :: sf2, sf4
       
       
-      fourth_smooth = .true.
-!      fourth_smooth = .false.
+!      fourth_smooth = .true.
+      fourth_smooth = .false.
 
-!      local smooth not working currently
+!     local smooth appears to work but is not a performance improvement
+!     worsened convergence rates
+!     input sfac must be increased by ~10x for stability
+!     leads to wave artifacts in solution on bend case
+!     case dependent
+
 !      local_smooth = .true.
-!      local_smooth = .false.
+      local_smooth = .false.
 
-      
-!     sf2 and sf4 are only used if 4th_smooth is true. 
-      sf4 = av%sfac
-      sf2 = sf4/4.0
 
 !     Get the block size and store locally for convenience
       ni = size(prop,1); nj = size(prop,2)
@@ -163,11 +163,18 @@
 !     take (1-sfac) * the calculated value of the property + sfac * the average 
 !     of the surrounding values. 
       
+      if (local_smooth) then
+          sfac_loc = av%sfac * abs(prop-prop_avg_2) / prop_ref
+      else
+          sfac_loc = av%sfac  
+      end if 
 
-      if (fourth_smooth) then	  
+      if (fourth_smooth) then	
+          sf4 = sfac_loc
+          sf2 = sf4/4.0  
           prop = (1 - sf2 -sf4) * prop + sf2 * prop_avg_2 + sf4 * prop_avg_4
       else
-          prop = (1 - av%sfac) * prop + av%sfac * prop_avg_2
+          prop = (1 - sfac_loc) * prop + sfac_loc * prop_avg_2
       end if
       
 !      prop = (1-sfac_loc)*prop + sfac_loc*prop_avg_4         

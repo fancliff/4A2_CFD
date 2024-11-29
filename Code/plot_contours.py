@@ -74,7 +74,14 @@ def main():
         # Add Mach = 1 contours
         if name == 'mach':
             ax.contour(g['x'],g['y'],g['mach'],[1.0],colors='w',
-                linewidths=0.5) 
+                linewidths=0.5)
+            
+        # Add Pstag = 0.05 contours
+        levels = np.arange(-2,2,0.02)
+        if name == 'cpstag':
+            contour = ax.contour(g['x'],g['y'],g['cpstag'],levels=levels,
+                                 colors='w',linewidths=0.5)
+            ax.clabel(contour, inline=False, fontsize=8)
 
         # Draw the walls of the block
         plot_wall(ax,g)

@@ -14,6 +14,7 @@
       real, dimension(g%ni,g%nj-1) :: mass_i, flux_i
       real, dimension(g%ni-1,g%nj) :: mass_j, flux_j
       integer :: i, j, ni, nj
+      logical :: fourth_flux
 
 !     Get the block size and store locally for convenience
       ni = g%ni; nj = g%nj
