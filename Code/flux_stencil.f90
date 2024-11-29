@@ -77,6 +77,60 @@
       
       
       end subroutine sum_fluxes
+      
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!       
+      
+      subroutine get_flux_i(prop,flux_i,fourth_flux)
+      
+!     gets the i flux component using either fourth or second order estimate
+
+      use types
+      implicit none
+      real, intent(in) :: prop(:,:)
+      real, intent(inout) :: flux_i(:,:)
+      logical, intent(in) :: fourth_flux
+      
+      ni = size(prop,1); nj = size(prop,2)
+      
+      if (fourth_flux) then
+          flux_i(:,2:nj-2) = (- prop(:,1:nj-3) + 13.0 * prop(:,2:nj-2) &
+                             + 13.0 * prop(:,3:nj-1) - prop(:,4:nj)) / 24.0
+          flux_i(:,1) = (9.0 * prop(:,1) + 19.0 * prop(:,2) &
+                        - 5.0 * prop(:,3) + prop(:,4) ) / 24.0
+          flux_i(:,nj-1) = (9.0 * prop(:,nj) + 19.0 * prop(:,nj-1) &
+                        - 5.0 * prop(:,nj-2) + prop(:,nj-3) ) / 24.0  
+      else
+          flux_i(:,1:nj-1) = ( prop(:,1:nj-1) + prop(:,2:nj) ) / 2.0
+      end if
+      
+      end subroutine get_flux_i
+      
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!      
+      
+      subroutine get_flux_j(prop,flux_j,fourth_flux)
+      
+!     gets the i flux component using either fourth or second order estimate
+
+      use types
+      implicit none
+      real, intent(in) :: prop(:,:)
+      real, intent(inout) :: flux_j(:,:)
+      logical, intent(in) :: fourth_flux
+      
+      ni = size(prop,1); nj = size(prop,2)
+      
+      if (fourth_flux) then
+          flux_j(2:ni-2,:) = (- prop(1:ni-3,:) + 13.0 * prop(2:ni-2,:) &
+                             + 13.0 * prop(3:ni-1,:) - prop(4:ni,:)) / 24.0
+          flux_j(1,:) = (9.0 * prop(1,:) + 19.0 * prop(2,:) &
+                        - 5.0 * prop(3,:) + prop(4,:) ) / 24.0
+          flux_j(ni-1,:) = (9.0 * prop(ni,:) + 19.0 * prop(ni-1,:) &
+                        - 5.0 * prop(ni-2,:) + prop(ni-3,:) ) / 24.0  
+      else
+          flux_j(1:ni-1,:) = ( prop(1:ni-1,:) + prop(2:ni,:) ) / 2.0
+      end if
+      
+      end subroutine get_flux_i
 
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
