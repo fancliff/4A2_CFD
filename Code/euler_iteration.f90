@@ -15,6 +15,10 @@
       real, dimension(g%ni-1,g%nj) :: mass_j, flux_j
       integer :: i, j, ni, nj
       logical :: fourth_flux
+      
+!     set the parameter to switch between fourth order and second order flux
+!     fourth_flux = .true.
+      fourth_flux = .false.
 
 !     Get the block size and store locally for convenience
       ni = g%ni; nj = g%nj

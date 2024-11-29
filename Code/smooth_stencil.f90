@@ -80,7 +80,8 @@
 !     Only calculate if needed by checking fourth_smooth
 !     Work out i direction first then add j direction
       if (fourth_smooth) then
-!	  edges second order
+
+!	      edges second order
 	      prop_avg_4(:,:) = prop_avg_2(:,:)
 
 !         i direction - central:
@@ -139,9 +140,9 @@
                                     + 4.0 * prop(2:ni-1,nj-3) &
                                     - 1.0 * prop(2:ni-1,nj-4)
 
-!         Add the i and j direction contributions together and divide by 2
-!         Full fourth order: (diverges)
-!	   prop_avg_4(:,:) = (prop_avg_4_i(:,:) + prop_avg_4_j(:,:)) / 2.0
+!      Add the i and j direction contributions together and divide by 2
+!      Full fourth order: (diverges)
+!	       prop_avg_4(:,:) = (prop_avg_4_i(:,:) + prop_avg_4_j(:,:)) / 2.0
           
 !	  1 from edge 4th order: (diverges)
 !          prop_avg_4(2:ni-1,2:nj-1) = (prop_avg_4_i(2:ni-1,2:nj-1) + prop_avg_4_j(2:ni-1,2:nj-1)) / 2.0
@@ -149,9 +150,9 @@
 !	  central 4th order: (stable[ish] - slightly better m dot and t stag conservation but worse p stag)
           prop_avg_4(3:ni-2,3:nj-2) = (prop_avg_4_i(3:ni-2,3:nj-2) + prop_avg_4_j(3:ni-2,3:nj-2)) / 2.0
 
-!         Experiment with even more centralised 4th order usage??
+!     Experiment with even more centralised 4th order usage??
       
-!         Corners currently not smoothed 
+!     Corners currently not smoothed 
 !	  (not used unless prop_avg_4 = prop_avg_2 statement is removed)
 !          prop_avg_4([1,ni],[1,nj]) = prop([1,ni],[1,nj])	  
 
