@@ -54,7 +54,7 @@
 !     For the outlet boundary condition set the value of "p(ni,:)" to the
 !     specified value of static pressure "p_out" in "bcs"
 
-!     Do not set p_out for supersonic case
+!     Do not set p_out for supersonic case as not required
 !      g%p(g%ni,:) = bcs%p_out
 
       end subroutine apply_bconds
