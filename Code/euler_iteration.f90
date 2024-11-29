@@ -26,10 +26,10 @@
 !     Setup the continuity equation by calculating the mass flow through
 !     the facets in both the i and j-directions. Store these values in
 !     "mass_i" and "mass_j"
-      call get_flux_i(g&rovx,flux_i,fourth_flux)
-      call get_flux_i(g&rovy,flux_i_2,fourth_flux)
-      call get_flux_j(g&rovx,flux_j,fourth_flux)
-      call get_flux_j(g&rovy,flux_j_2,fourth_flux) 
+      call get_flux_i(g%rovx,flux_i,fourth_flux)
+      call get_flux_i(g%rovy,flux_i_2,fourth_flux)
+      call get_flux_j(g%rovx,flux_j,fourth_flux)
+      call get_flux_j(g%rovy,flux_j_2,fourth_flux) 
       
       mass_i = flux_i * g%lx_i + flux_i_2 * g%ly_i
       mass_j = flux_j * g%lx_j + flux_j_2 * g%ly_j    
@@ -46,8 +46,8 @@
 !     Setup the conservation of energy equation by calculated the enthalpy flux
 !     and storing the values in "flux_i" and "flux_j", you will need "mass_i"
 !     and "mass_j" from before
-      call get_flux_i(g&hstag,flux_i,fourth_flux)
-      call get_flux_j(g&hstag,flux_j,fourth_flux)
+      call get_flux_i(g%hstag,flux_i,fourth_flux)
+      call get_flux_j(g%hstag,flux_j,fourth_flux)
       flux_i = flux_i * mass_i
       flux_j = flux_j * mass_j
 
@@ -55,10 +55,10 @@
       call sum_fluxes(av,flux_i,flux_j,g%area,g%roe,g%roe_start,g%droe)
 
 !     Setup the x-momentum equation including momentum flux and pressure forces
-      call get_flux_i(g&vx,flux_i,fourth_flux)
-      call get_flux_i(g&p,flux_i_2,fourth_flux)
-      call get_flux_j(g&vx,flux_j,fourth_flux)
-      call get_flux_j(g&p,flux_j_2,fourth_flux) 
+      call get_flux_i(g%vx,flux_i,fourth_flux)
+      call get_flux_i(g%p,flux_i_2,fourth_flux)
+      call get_flux_j(g%vx,flux_j,fourth_flux)
+      call get_flux_j(g%p,flux_j_2,fourth_flux) 
       
       flux_i = flux_i * mass_i + flux_i_2 * g%lx_i
       flux_j = flux_j * mass_j + flux_j_2 * g%lx_j
@@ -67,10 +67,10 @@
       call sum_fluxes(av,flux_i,flux_j,g%area,g%rovx,g%rovx_start,g%drovx)
 
 !     Setup the y-momentum equation including momentum flux and pressure forces
-      call get_flux_i(g&vy,flux_i,fourth_flux)
-      call get_flux_i(g&p,flux_i_2,fourth_flux)
-      call get_flux_j(g&vy,flux_j,fourth_flux)
-      call get_flux_j(g&p,flux_j_2,fourth_flux) 
+      call get_flux_i(g%vy,flux_i,fourth_flux)
+      call get_flux_i(g%p,flux_i_2,fourth_flux)
+      call get_flux_j(g%vy,flux_j,fourth_flux)
+      call get_flux_j(g%p,flux_j_2,fourth_flux) 
       
       flux_i = flux_i * mass_i + flux_i_2 * g%ly_i
       flux_j = flux_j * mass_j + flux_j_2 * g%ly_j

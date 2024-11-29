@@ -89,6 +89,7 @@
       real, intent(in) :: prop(:,:)
       real, intent(inout) :: flux_i(:,:)
       logical, intent(in) :: fourth_flux
+      integer :: ni, nj
       
       ni = size(prop,1); nj = size(prop,2)
       
@@ -116,6 +117,7 @@
       real, intent(in) :: prop(:,:)
       real, intent(inout) :: flux_j(:,:)
       logical, intent(in) :: fourth_flux
+      integer :: ni, nj
       
       ni = size(prop,1); nj = size(prop,2)
       
@@ -130,7 +132,7 @@
           flux_j(1:ni-1,:) = ( prop(1:ni-1,:) + prop(2:ni,:) ) / 2.0
       end if
       
-      end subroutine get_flux_i
+      end subroutine get_flux_j
 
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
