@@ -135,11 +135,13 @@
               call check_stop(av,g)
           end if
 
+!         Remove convergence check for sod tube case
+
 !         Stop marching if converged to the desired tolerance "conlim"
-          if(d_max < av%d_max .and. d_avg < av%d_avg) then
-              write(6,*) 'Calculation converged in', nstep,'iterations'
-              exit
-          end if
+!         if(d_max < av%d_max .and. d_avg < av%d_avg) then
+!             write(6,*) 'Calculation converged in', nstep,'iterations'
+!             exit
+!         end if
 
       end do
 
