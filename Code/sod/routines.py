@@ -26,6 +26,7 @@ def calc_secondary(av,b):
     b['vx'] = b['rovx']/b['ro']
     b['vy'] = b['rovy']/b['ro']
     Vsq = b['vx']**2 + b['vy']**2
+    b['v'] = np.sqrt(Vsq)
     b['p'] = (gm1) * ( b['roe'] - (b['ro']*Vsq/2.0) )
     b['hstag'] = (b['roe'] + b['p']) / b['ro'] #constant if adibatic and no work
     Msq =  Vsq / (gm*b['p']/b['ro']) #asssume ideal gas RT = p/ro
