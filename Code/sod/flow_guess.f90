@@ -40,7 +40,7 @@
           g%rovy(:,:) = 0.00000
           g%roe(1:i_mid,:)    = 100000.0000 / (av%gam-1)
           g%roe(i_mid+1:ni,:) = 10000.0000/ (av%gam-1)
-
+      end if
 
 !     Determine which guess calcation method to use by the value of "guesstype"
       if(guesstype == 1) then
@@ -143,7 +143,7 @@
 !     rov_ref therefore is 900x1 = 900kg/m^2/s
 
 !     Why did James use rov_ref ~1000, rms error shouldn't matter
-      if(guesstype=0) then
+      if(guesstype == 0) then
           av%rov_ref = 900.00000
       else
           av%rov_ref = max(sum(g%rovx(1,:)),sum(g%rovy(1,:))) / nj
