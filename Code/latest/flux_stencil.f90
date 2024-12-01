@@ -99,26 +99,26 @@
                              + 802.0 * ( prop(:,3:nj-3) + prop(:,4:nj-2) ) &
                              - 93.0 * prop(:,5:nj-1) + 11.0 * prop(:,6:nj) ) / 1440.0
           flux_i(:,2) = ( - 27.0 * prop(:,1) + 637.0 * prop(:,2) & 
-                               + 1022.0 * prop(:,3) - 258.0 * prop(:,4) &
-                               + 77.0 * prop(:,5) - 11.0 * prop(:,6) ) / 1440.0
+                        + 1022.0 * prop(:,3) - 258.0 * prop(:,4) &
+                        + 77.0 * prop(:,5) - 11.0 * prop(:,6) ) / 1440.0
           flux_i(:,nj-2) = ( - 27.0 * prop(:,nj) + 637.0 * prop(:,nj-1) & 
-                               + 1022.0 * prop(:,nj-2) - 258.0 * prop(:,nj-3) &
-                               + 77.0 * prop(:,nj-4) - 11.0 * prop(:,nj-5) ) / 1440.0
+                           + 1022.0 * prop(:,nj-2) - 258.0 * prop(:,nj-3) &
+                           + 77.0 * prop(:,nj-4) - 11.0 * prop(:,nj-5) ) / 1440.0
           flux_i(:,1) = ( 475.0 * prop(:,1) + 1427.0 * prop(:,2) &
                         - 798.0 * prop(:,3) + 482.0 * prop(:,4) &
                         - 173.0 * prop(:,5) + 27.0 * prop(:,6) ) / 1440.0
           flux_i(:,nj-1) = ( 475.0 * prop(:,nj) + 1427.0 * prop(:,nj-1) &
-                        - 798.0 * prop(:,nj-2) + 482.0 * prop(:,nj-3) &
-                        - 173.0 * prop(:,nj-4) + 27.0 * prop(:,nj-5) ) / 1440.0     
+                           - 798.0 * prop(:,nj-2) + 482.0 * prop(:,nj-3) &
+                           - 173.0 * prop(:,nj-4) + 27.0 * prop(:,nj-5) ) / 1440.0     
                     
       else if(av%spatial_acc == 4) then
           
-          flux_i(:,2:nj-2) = (- prop(:,1:nj-3) + 13.0 * prop(:,2:nj-2) &
+          flux_i(:,2:nj-2) = ( - prop(:,1:nj-3) + 13.0 * prop(:,2:nj-2) &
                              + 13.0 * prop(:,3:nj-1) - prop(:,4:nj)) / 24.0
-          flux_i(:,1) = (9.0 * prop(:,1) + 19.0 * prop(:,2) &
+          flux_i(:,1) = ( 9.0 * prop(:,1) + 19.0 * prop(:,2) &
                         - 5.0 * prop(:,3) + prop(:,4) ) / 24.0
-          flux_i(:,nj-1) = (9.0 * prop(:,nj) + 19.0 * prop(:,nj-1) &
-                        - 5.0 * prop(:,nj-2) + prop(:,nj-3) ) / 24.0  
+          flux_i(:,nj-1) = ( 9.0 * prop(:,nj) + 19.0 * prop(:,nj-1) &
+                           - 5.0 * prop(:,nj-2) + prop(:,nj-3) ) / 24.0  
           
       else !if no valid spatial accuracy set then use 2nd order
           flux_i(:,1:nj-1) = ( prop(:,1:nj-1) + prop(:,2:nj) ) / 2.0
@@ -147,17 +147,17 @@
                              + 802.0 * ( prop(3:ni-3,:) + prop(4:ni-2,:) ) &
                              - 93.0 * prop(5:ni-1,:) + 11.0 * prop(6:ni,:) ) / 1440.0
           flux_j(2,:) = ( - 27.0 * prop(1,:) + 637.0 * prop(2,:) & 
-                               + 1022.0 * prop(3,:) - 258.0 * prop(4,:) &
-                               + 77.0 * prop(5,:) - 11.0 * prop(6,:) ) / 1440.0
+                        + 1022.0 * prop(3,:) - 258.0 * prop(4,:) &
+                        + 77.0 * prop(5,:) - 11.0 * prop(6,:) ) / 1440.0
           flux_j(ni-2,:) = ( - 27.0 * prop(ni,:) + 637.0 * prop(ni-1,:) & 
-                               + 1022.0 * prop(ni-2,:) - 258.0 * prop(ni-3,:) &
-                               + 77.0 * prop(ni-4,:) - 11.0 * prop(ni-5,:) ) / 1440.0
+                           + 1022.0 * prop(ni-2,:) - 258.0 * prop(ni-3,:) &
+                           + 77.0 * prop(ni-4,:) - 11.0 * prop(ni-5,:) ) / 1440.0
           flux_j(1,:) = ( 475.0 * prop(1,:) + 1427.0 * prop(2,:) &
                         - 798.0 * prop(3,:) + 482.0 * prop(4,:) &
                         - 173.0 * prop(5,:) + 27.0 * prop(6,:) ) / 1440.0
           flux_j(ni-1,:) = ( 475.0 * prop(ni,:) + 1427.0 * prop(ni-1,:) &
-                        - 798.0 * prop(ni-2,:) + 482.0 * prop(ni-3,:) &
-                        - 173.0 * prop(ni-4,:) + 27.0 * prop(ni-5,:) ) / 1440.0            
+                           - 798.0 * prop(ni-2,:) + 482.0 * prop(ni-3,:) &
+                           - 173.0 * prop(ni-4,:) + 27.0 * prop(ni-5,:) ) / 1440.0            
                 
       else if(av%spatial_acc == 4) then
           flux_j(2:ni-2,:) = (- prop(1:ni-3,:) + 13.0 * prop(2:ni-2,:) &
