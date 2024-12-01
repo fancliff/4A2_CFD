@@ -54,6 +54,8 @@
 !     "true" indicates the node is on a wall.
       g%wall = .false.
       g%wall(:,[1,g%nj]) = .true.
+!     add end walls for the sod shock tube case
+      g%wall([1,g%ni],:) = .true.
 
 !     Print that the mesh has been created
       write(6,*) 'Interpolated mesh from the bounding geometry curves'

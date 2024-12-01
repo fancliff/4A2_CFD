@@ -114,8 +114,9 @@
 !             Calculate secondary flow variables used in conservation equations
               call set_secondary(av,g)
 
-!             Apply inlet and outlet values at the boundaries of the domain
-              call apply_bconds(av,g,bcs)
+!             Apply inlet and outlet values at the boundaries of the domai
+!             Turn off boundary conditions for sod tube case
+!              call apply_bconds(av,g,bcs)
 
 !             Perform the timestep to update the primary flow variables
               call euler_iteration(av,g)
