@@ -38,8 +38,8 @@
           g%ro(i_mid+1:ni,:) = 0.12500
           g%rovx(:,:) = 0.00000
           g%rovy(:,:) = 0.00000
-          g%roe(1:i_mid,:)    = 100000.0000 / (av%gam-1)
-          g%roe(i_mid+1:ni,:) = 10000.0000/ (av%gam-1)
+          g%roe(1:i_mid,:)    = 1.0000 / (av%gam-1)
+          g%roe(i_mid+1:ni,:) = 0.1000/ (av%gam-1)
       end if
 
 !     Determine which guess calcation method to use by the value of "guesstype"
@@ -139,12 +139,11 @@
       
 !     need a new rov_ref for sod shock tube as velocity is 0 everywhere initially
 !     shock speed satisfies sqrt((P_l-P_r)(ro_l+ro_r)/ro_l.ro_r)
-!     for this case is 900m/s
-!     rov_ref therefore is 900x1 = 900kg/m^2/s
+!     if P = 1 and 0.1Pa not bar then sqrt(8.1) = 2.84605 m/s
+!     rov_ref therefore is 2.84605x1 = 2.84605kg/m^2/s
 
-!     Why did James use rov_ref ~1000, rms error shouldn't matter
       if(guesstype == 0) then
-          av%rov_ref = 900.00000
+          av%rov_ref = 2.846049894
       else
           av%rov_ref = max(sum(g%rovx(1,:)),sum(g%rovy(1,:))) / nj
       end if

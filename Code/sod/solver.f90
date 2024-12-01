@@ -63,6 +63,8 @@
 
 !     Calculate the initial guess of the flowfield in the domain. There are two
 !     options that can be chosen with the input argument "guesstype":
+!         0. Sod shock tube case with ro = 1.0 and 0.125 kg/m^3 and P = 1.0 
+!            and 0.1 bar on left and right sides of the middle respectively
 !         1. Uniform flow properties when "guesstype = 1", this is completed
 !            for you already, it will allow you to get the solver started but
 !            convergence will take more iterations.
@@ -70,7 +72,7 @@
 !            flow in the i-direction allows a calculation of a better
 !            approximation to the converged flowfield and so the time to
 !            solution will be reduced. You will need to complete this option.
-      call flow_guess(av,g,bcs,2)
+      call flow_guess(av,g,bcs,0)
 
 !     Optional output call to inspect the initial guess of the flowfield
       call write_output(av,g,2)
