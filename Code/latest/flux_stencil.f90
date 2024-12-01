@@ -80,27 +80,31 @@
       
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!       
       
-      subroutine get_flux_i(prop,flux_i,fourth_flux)
+      subroutine get_flux_i(av,prop,flux_i)
       
 !     gets the i flux component using either fourth or second order estimate
 
       use types
       implicit none
+      type(t_appvars), intent(in) :: av
       real, intent(in) :: prop(:,:)
       real, intent(inout) :: flux_i(:,:)
-      logical, intent(in) :: fourth_flux
       integer :: ni, nj
       
       ni = size(prop,1); nj = size(prop,2)
       
-      if (fourth_flux) then
+      if(av%spatial_acc == 6) then
+          
+          
+          
+      else if(av%spatial_acc == 4) then
           flux_i(:,2:nj-2) = (- prop(:,1:nj-3) + 13.0 * prop(:,2:nj-2) &
                              + 13.0 * prop(:,3:nj-1) - prop(:,4:nj)) / 24.0
           flux_i(:,1) = (9.0 * prop(:,1) + 19.0 * prop(:,2) &
                         - 5.0 * prop(:,3) + prop(:,4) ) / 24.0
           flux_i(:,nj-1) = (9.0 * prop(:,nj) + 19.0 * prop(:,nj-1) &
                         - 5.0 * prop(:,nj-2) + prop(:,nj-3) ) / 24.0  
-      else
+      else !if no valid spatial accuracy set then use 2nd order
           flux_i(:,1:nj-1) = ( prop(:,1:nj-1) + prop(:,2:nj) ) / 2.0
       end if
       
@@ -108,27 +112,31 @@
       
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!      
       
-      subroutine get_flux_j(prop,flux_j,fourth_flux)
+      subroutine get_flux_j(av,prop,flux_j)
       
 !     gets the i flux component using either fourth or second order estimate
 
       use types
       implicit none
+      type(t_appvars), intent(in) :: av
       real, intent(in) :: prop(:,:)
       real, intent(inout) :: flux_j(:,:)
-      logical, intent(in) :: fourth_flux
       integer :: ni, nj
       
       ni = size(prop,1); nj = size(prop,2)
       
-      if (fourth_flux) then
+      if(av%spatial_acc == 6) then
+          
+          
+                
+      else if(av%spatial_acc == 4) then
           flux_j(2:ni-2,:) = (- prop(1:ni-3,:) + 13.0 * prop(2:ni-2,:) &
                              + 13.0 * prop(3:ni-1,:) - prop(4:ni,:)) / 24.0
           flux_j(1,:) = (9.0 * prop(1,:) + 19.0 * prop(2,:) &
                         - 5.0 * prop(3,:) + prop(4,:) ) / 24.0
           flux_j(ni-1,:) = (9.0 * prop(ni,:) + 19.0 * prop(ni-1,:) &
                         - 5.0 * prop(ni-2,:) + prop(ni-3,:) ) / 24.0  
-      else
+      else !if no valid spatial accuracy set then use 2nd order
           flux_j(1:ni-1,:) = ( prop(1:ni-1,:) + prop(2:ni,:) ) / 2.0
       end if
       

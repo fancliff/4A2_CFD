@@ -18,11 +18,14 @@
           integer :: nsteps, nstep
 
 !         Total timestep for Runge-Kutta scheme and nrkuts
-	  integer :: nrkuts
+	      integer :: nrkuts
           real :: dt_total
 
 !         Second order time derivative factor for Crocco method
           real :: facsec
+          
+!         Spatial Accuracy for degree of sum fluxes calculations
+          integer :: spatial_acc
 
 !         Reference values of the primary flow variables
           real :: ro_ref, roe_ref, rov_ref

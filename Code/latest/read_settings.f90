@@ -22,7 +22,7 @@
 !         nsteps
 !         ni, nj
       read(5,*) av%gam, av%rgas
-      read(5,*) av%cfl, av%sfac, av%d_max, av%facsec, av%nrkuts
+      read(5,*) av%cfl, av%sfac, av%d_max, av%facsec, av%nrkuts, av%spatial_acc
       read(5,*) av%nsteps
       read(5,*) av%ni, av%nj
 
@@ -63,10 +63,11 @@
       write(6,*) '  rgas =', av%rgas, 'cp =', av%cp, 'cv =', av%cv
       write(6,*) '  CFL =', av%cfl, 'sfac =', av%sfac
       write(6,*) '  Convergence  d_max =', av%d_max
-      write(6,*) '  facsec =', av%facsec, 'nrkuts=', av%nrkuts
+      write(6,*) '  facsec =', av%facsec, 'nrkuts =', av%nrkuts, & 
+          'spatial accuracy =', av%spatial_acc
       write(6,*) '  Mesh size  ni =', av%ni, 'nj =', av%nj
       write(6,*) '  Inlet  pstag =', bcs%pstag, 'tstag =', bcs%tstag, &
-          'alpha = ', bcs%alpha
+          'alpha =', bcs%alpha
       write(6,*) '  Outlet  p_out =', bcs%p_out
       write(6,*)
 
