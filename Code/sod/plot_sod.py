@@ -72,6 +72,14 @@ def main():
     # Show all the plots
     plt.show()
 
+    #Calculate and output the error metrics to the exact solution
+    file_path = '../../Cases/sod.raw'
+
+    errors = calculate_errors(g, file_path)
+    print(f'Density Error (ro): {errors["ro_error"]}')
+    print(f'Pressure Error (p): {errors["p_error"]}')
+    print(f'Added Combined Error: {errors["added_error"]}')
+    print(f'Multiplied Combined Error: {errors["multiplied_error"]}')
     
 main()
 

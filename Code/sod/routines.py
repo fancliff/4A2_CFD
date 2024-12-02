@@ -46,6 +46,54 @@ def calc_secondary(av,b):
 
 ################################################################################
 
+def calc_sod_error(b, exact_file, j_pos):
+    
+    '''
+    Calculate separate L2 errors for 'ro' and 'p', as well as combined errors (addition and multiplication).
+    
+    Parameters:
+        b (dict): Dictionary containing CFD solution with keys 'x', 'ro', 'p'.
+        exact_file (str): Path to the file containing the exact solution (sod.raw).
+        
+    Returns:
+        dict: Dictionary containing 'ro_error', 'p_error', 'added_error', and 'multiplied_error'.
+    '''
+    
+    # Load the exact solution from the file
+    exact_data = np.loadtxt(exact_file, delimiter='\t', skiprows=1)
+    x_exact, ro_exact, p_exact = exact_data[:, 0], exact_data[:, 1], exact_data[:, 2]
+    
+    # Interpolate exact solution to CFD solution points
+    x_cfd = np.array(g['x'][:,j_pos])
+    ro_exact_interp = np.interp(x_cfd, x_exact, ro_exact)
+    p_exact_interp = np.interp(x_cfd, x_exact, p_exact)
+    
+    # Extract CFD solution values
+    ro_cfd = np.array(g['ro'][:,j_pos])
+    p_cfd = np.array(g['p'][:,j_pos])
+    
+    # Compute separate L2 norms
+    ro_error = np.sqrt(np.mean((ro_cfd - ro_exact_interp) ** 2))
+    p_error = np.sqrt(np.mean((p_cfd - p_exact_interp) ** 2))
+    
+    # Compute point-wise combined errors
+    added_error_pointwise = np.abs(ro_cfd - ro_exact_interp) + np.abs(p_cfd - p_exact_interp)
+    multiplied_error_pointwise = np.abs(ro_cfd - ro_exact_interp) * np.abs(p_cfd - p_exact_interp)
+    
+    # Compute L2 norms for combined errors
+    added_error = np.sqrt(np.mean(added_error_pointwise ** 2))
+    multiplied_error = np.sqrt(np.mean(multiplied_error_pointwise ** 2))
+    
+    # Return all errors in a dictionary
+    return {
+        'ro_error': ro_error,
+        'p_error': p_error,
+        'added_error': added_error,
+        'multiplied_error': multiplied_error
+    }
+
+################################################################################
+
 def cut_i(b,i):
     # Take a structured cut along an "i = const" line, this is done using Python
     # indexing that starts from 0
