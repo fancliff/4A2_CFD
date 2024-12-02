@@ -138,12 +138,10 @@
       av%roe_ref = sum(g%roe(1,:)) / nj
       
 !     need a new rov_ref for sod shock tube as velocity is 0 everywhere initially
-!     shock speed satisfies sqrt((P_l-P_r)(ro_l+ro_r)/ro_l.ro_r)
-!     if P = 1 and 0.1Pa not bar then sqrt(8.1) = 2.84605 m/s
-!     rov_ref therefore is 2.84605x1 = 2.84605kg/m^2/s
+!     use max flow speed at final solution (t=0.2) which can be found in sod.raw
 
       if(guesstype == 0) then
-          av%rov_ref = 2.846049894
+          av%rov_ref = 0.89095233
       else
           av%rov_ref = max(sum(g%rovx(1,:)),sum(g%rovy(1,:))) / nj
       end if

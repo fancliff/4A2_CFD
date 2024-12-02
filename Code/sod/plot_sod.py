@@ -34,16 +34,32 @@ def main():
 
 
     g['ro_ratio'] = g['ro']/1.0
-    g['v_ratio'] = g['v']/2.846049894
-
+    g['v_ratio'] = g['v']/0.89095233
 
     # Specify the parameters to plot
-    fieldnames = ['ro_ratio','v_ratio']; 
-    colnames = ['Density Ratio','Velocity ratio']
+    fieldnames = ['ro_ratio','v_ratio','p']; 
+    colnames = ['Density Ratio','Velocity ratio','Pressure Ratio']
 
     j_mid = (g['nj'])//2
     # j_pos = 0
     j_pos = j_mid
+
+    #Calculate and output the error metrics to the exact solution
+    file_path = 'sod.raw'
+
+    errors = calc_sod_error(g, file_path, j_pos)
+    print()
+    print(f'Density Error (ro): {errors["ro_error"]:.4e}')
+    print(f'Pressure Error (p): {errors["p_error"]:.4e}\n')
+    print(f'Total (1+2): {errors["ro_error"]+errors["p_error"]:.4e}')
+    print(f'Total (1*2): {errors["ro_error"]*errors["p_error"]:.4e}\n')
+    print(f'Added Pointwise Error: {errors["added_error"]:.4e}')
+    print(f'Multiplied Pointwise Error: {errors["multiplied_error"]:.4e}\n')
+
+    # Load the exact solution from the file
+    exact_data = np.loadtxt(file_path, delimiter='\t', skiprows=1)
+    x_exact, ro_exact, p_exact = exact_data[:, 0], exact_data[:, 1], exact_data[:, 2]
+    vx_exact = exact_data[:,3]
 
     # Plot the calculated non-dimensional parameters to show the flow solution
     for n,name in enumerate(fieldnames):
@@ -59,9 +75,16 @@ def main():
         if name == 'ro_ratio':
             t0 = np.ones(g['ni'])
             t0[(g['ni']//2):g['ni']] *= 0.125
+            exact = ro_exact
         if name == 'v_ratio':
             t0 = np.zeros(g['ni'])
+            exact = vx_exact/0.89095233
+        if name == 'p':
+            t0 = np.ones(g['ni'])
+            t0[(g['ni']//2):g['ni']] *= 0.1
+            exact = p_exact
         ax.plot(g['x'][:,j_pos],t0,label='t=0.0s',color='red')
+        ax.plot(x_exact,exact,label='exact',color='green')
 
         # Add labels and title (fortran indexing for j_pos printout)
         ax.set_title(f'{colnames[n]} against x at j = {j_pos+1}', fontsize = 14)
@@ -69,23 +92,11 @@ def main():
         ax.set_ylabel(colnames[n], fontsize = 12)
         ax.legend(loc = 'best', fontsize = 12)
 
-        ax.set_ylim(-0.05,1.05)
+        ax.set_ylim(-0.05,1.25)
         ax.set_xlim(-0.05,1.05)
 
     # Show all the plots
     plt.show()
-
-    #Calculate and output the error metrics to the exact solution
-    file_path = 'sod.raw'
-
-    errors = calc_sod_error(g, file_path, j_pos)
-    print()
-    print(f'Density Error (ro): {errors["ro_error"]:.4e}')
-    print(f'Pressure Error (p): {errors["p_error"]:.4e}\n')
-    print(f'Total (1+2): {errors["ro_error"]+errors["p_error"]:.4e}')
-    print(f'Total (1*2): {errors["ro_error"]*errors["p_error"]:.4e}\n')
-    print(f'Added Pointwise Error: {errors["added_error"]:.4e}')
-    print(f'Multiplied Pointwise Error: {errors["multiplied_error"]:.4e}\n')
     
 main()
 
