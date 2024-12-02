@@ -9,6 +9,9 @@
 # Import modules and functions
 from routines import *
 
+# import os
+# print(os.getcwd())
+
 def main():
 
     # Construct full filenames to read the run data
@@ -73,13 +76,16 @@ def main():
     plt.show()
 
     #Calculate and output the error metrics to the exact solution
-    file_path = '../../Cases/sod.raw'
+    file_path = 'sod.raw'
 
-    errors = calculate_errors(g, file_path)
-    print(f'Density Error (ro): {errors["ro_error"]}')
-    print(f'Pressure Error (p): {errors["p_error"]}')
-    print(f'Added Combined Error: {errors["added_error"]}')
-    print(f'Multiplied Combined Error: {errors["multiplied_error"]}')
+    errors = calc_sod_error(g, file_path, j_pos)
+    print()
+    print(f'Density Error (ro): {errors["ro_error"]:.4e}')
+    print(f'Pressure Error (p): {errors["p_error"]:.4e}\n')
+    print(f'Total (1+2): {errors["ro_error"]+errors["p_error"]:.4e}')
+    print(f'Total (1*2): {errors["ro_error"]*errors["p_error"]:.4e}\n')
+    print(f'Added Pointwise Error: {errors["added_error"]:.4e}')
+    print(f'Multiplied Pointwise Error: {errors["multiplied_error"]:.4e}\n')
     
 main()
 

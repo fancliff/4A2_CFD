@@ -46,13 +46,13 @@ def calc_secondary(av,b):
 
 ################################################################################
 
-def calc_sod_error(b, exact_file, j_pos):
+def calc_sod_error(g, exact_file, j_pos):
     
     '''
     Calculate separate L2 errors for 'ro' and 'p', as well as combined errors (addition and multiplication).
     
     Parameters:
-        b (dict): Dictionary containing CFD solution with keys 'x', 'ro', 'p'.
+        g (dict): Dictionary containing CFD solution with keys 'x', 'ro', 'p'.
         exact_file (str): Path to the file containing the exact solution (sod.raw).
         
     Returns:
