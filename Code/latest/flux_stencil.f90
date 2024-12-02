@@ -166,7 +166,7 @@
           flux_j(1,:) = (9.0 * prop(1,:) + 19.0 * prop(2,:) &
                         - 5.0 * prop(3,:) + prop(4,:) ) / 24.0
           flux_j(ni-1,:) = (9.0 * prop(ni,:) + 19.0 * prop(ni-1,:) &
-                        - 5.0 * prop(ni-2,:) + prop(ni-3,:) ) / 24.0 
+                           - 5.0 * prop(ni-2,:) + prop(ni-3,:) ) / 24.0 
            
       else !if no valid spatial accuracy set then use 2nd order
           flux_j(1:ni-1,:) = ( prop(1:ni-1,:) + prop(2:ni,:) ) / 2.0
