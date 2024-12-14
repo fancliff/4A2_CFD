@@ -44,6 +44,59 @@ def calc_secondary(av,b):
     return b
 
 ################################################################################
+def calc_waves_error(av,g,p1,p01):
+    '''
+    Calculate separate L2 errors for 'cpstag' and 'cp'
+    
+    Parameters:
+        g (dict): Dictionary containing CFD solution with keys 'x','y' 'cpstag', 'cp'.
+        
+    Returns:
+        tuple (L2 error in cpstag, L2 error in cp)
+        adds exact solution entries to g for plotting for reference
+    '''
+    m1 = (0.1- 0.0) / (0.1497 - 0.0)
+    b1 = 0.0
+
+    m2 = (0.1 - 0.01759) / (0.1497 - 0.1254)
+    b2 = 0.01759 - m2 * 0.1254
+
+    pstag_exact = p01
+    gamma = av['gam']
+    M_exact = np.sqrt((2 / (gamma - 1)) * (((p01 / p1) ** ((gamma - 1) / gamma)) - 1))
+
+    g['cp_exact'] = np.zeros_like(g['x'])
+    g['cpstag_exact'] = np.zeros_like(g['x'])
+    g['M_exact'] = np.ones_like(g['x'])*M_exact
+
+    for n in range(g['nj']):
+        for i, (x,y) in enumerate(zip(g['x'][:,n], g['y'][:,n])):
+            y_on_line1 = m1 * x + b1
+            y_on_line2 = m2 * x + b2
+
+            if y<y_on_line1 and y<y_on_line2:
+                # after both shocks
+                p_exact = p1*2.36475
+                M_exact = 1.2022102
+            elif y>y_on_line1 and y>y_on_line2:
+                # before both shocks
+                continue
+            else:
+                # in between the two shocks
+                p_exact = p1*1.50217
+                M_exact = 1.5288892
+            cp_exact = (p_exact - p1)/(p01 - p1)
+            g['M_exact'][i,n] = M_exact
+            g['cp_exact'][i,n] = cp_exact
+
+    cp_error = np.linalg.norm(g['cp_exact']-g['cp'])
+    cpstag_error = np.linalg.norm(g['cpstag_exact']-g['cpstag'])
+    mach_error = np.linalg.norm(g['M_exact']-g['mach'])
+
+    return(cp_error, cpstag_error, mach_error)
+
+
+################################################################################
 
 def cut_i(b,i):
     # Take a structured cut along an "i = const" line, this is done using Python
