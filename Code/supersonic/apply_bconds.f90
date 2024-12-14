@@ -54,6 +54,10 @@
 !     For the outlet boundary condition set the value of "p(ni,:)" to the
 !     specified value of static pressure "p_out" in "bcs"
       !g%p(g%ni,:) = bcs%p_out
+      
+!     For supersonic case constrain inlet pressure instead of outlet
+!     To fix inlet mach number over many timesteps
+      g%p(1,:) = bcs%p_out
 
       end subroutine apply_bconds
 

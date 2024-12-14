@@ -28,7 +28,7 @@
       logical :: fourth_smooth, local_smooth
       
       
-!      fourth_smooth = .true.
+      !fourth_smooth = .true.
       fourth_smooth = .false.
 
 !     local smooth appears to work but is not a performance improvement
