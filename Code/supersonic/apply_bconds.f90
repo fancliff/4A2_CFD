@@ -53,7 +53,7 @@
       
 !     For the outlet boundary condition set the value of "p(ni,:)" to the
 !     specified value of static pressure "p_out" in "bcs"
-      g%p(g%ni,:) = bcs%p_out
+      !g%p(g%ni,:) = bcs%p_out
 
       end subroutine apply_bconds
 

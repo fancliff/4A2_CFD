@@ -34,8 +34,10 @@
 !     Scale the smoothing factor and convergence limits by cfl number, the 
 !     changes over a timestep should be proportional to dt, which is 
 !     proportional to cfl
-      av%sfac = av%sfac * av%cfl
-      av%d_max = av%d_max * av%cfl
+!     For the sod case change these so that they are proportional to nsteps
+!     As CFL is not used so 1/nsteps is proportional to dt
+      av%sfac = av%sfac / av%nsteps * 1000.0
+      av%d_max = av%d_max / av%nsteps * 1000.0
 
 !     Average convergence limit on residuals is set to half of the maximum
       av%d_avg = 0.5 * av%d_max

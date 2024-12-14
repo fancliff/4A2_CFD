@@ -47,8 +47,8 @@ def main():
     max_avg_d = max(l['dro_avg'][-1],l['droe_avg'][-1],l['drovx_avg'][-1],l['drovy_avg'][-1])
 
     print('')
-    print(f'Maximum max residual: {max_max_d}')
-    print(f'Maximum avg residual: {max_avg_d}\n')
+    print(f'Maximum max residual: {max_max_d:.4e}')
+    print(f'Maximum avg residual: {max_avg_d:.4e}\n')
 
     
 main()

@@ -71,10 +71,12 @@ def main():
         # Add colorbar with variable name
         colorbar(hc,colnames[n])
 
-        # Add Mach = 1 contours
+        # Add Mach = 0.1 contours from mach 1 onwards
+        levels = np.arange(1,3,0.1)
         if name == 'mach':
-            ax.contour(g['x'],g['y'],g['mach'],[1.0],colors='w',
-                linewidths=0.5)
+            contour = ax.contour(g['x'],g['y'],g['mach'],levels=levels,
+                                 colors='w',linewidths=0.5)
+            #ax.clabel(contour, inline=False, fontsize=8)
             
         # Add Pstag = 0.05 contours
         levels = np.arange(-2,2,0.02)

@@ -52,6 +52,11 @@ def main():
     g['cp'] = (g['p'] - p_ref)/(pstag_ref-p_ref)
     g['cpstag'] = (g['pstag'] - pstag_ref)/(pstag_ref-p_ref)
 
+    min_cpstag = np.min(g['cpstag'])
+    max_cpstag = np.max(g['cpstag'])
+    print(f'Cpstag min: {min_cpstag:.4e}')
+    print(f'Cpstag max: {max_cpstag:.4e}\n')
+
     # Specify the parameters to plot
     fieldnames = ['cp', 'mach','cpstag']; 
     colnames = ['Static pressure coefficient','Mach number','Stagnation pressure coefficient']
