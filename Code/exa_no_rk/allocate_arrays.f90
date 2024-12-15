@@ -33,8 +33,9 @@
           g%lx_j(ni-1,nj),g%ly_j(ni-1,nj))
 
 !     Primary flow variables in the mesh
-      allocate(g%ro(ni,nj),g%rovx(ni,nj),g%rovy(ni,nj),g%roe(ni,nj))
+      allocate(g%ro(ni,nj),g%roe(ni,nj),g%rovx(ni,nj),g%rovy(ni,nj))
       
+!     Start timestep primary variables for Runge-Kutta
       allocate(g%ro_start(ni,nj),g%roe_start(ni,nj),g%rovx_start(ni,nj),g%rovy_start(ni,nj))
 
 !     Cell centred primary increments
