@@ -23,10 +23,10 @@
       v_max = astag * 2.0
 
 !     Calculate the timestep using the CFL number and store it in "av%dt"
-!      av%dt_total = av%cfl * g%l_min / v_max
+!      av%dt = av%cfl * g%l_min / v_max
 
 !     For Sod case the timestep is just a function of nsteps
-      av%dt_total = 0.2 / av%nsteps
+      av%dt = 0.2 / av%nsteps
 
 !     Print the calculated timestep and some intermediate values
 !      write(6,*) 'a(stag): ', astag
@@ -36,7 +36,7 @@
 !      write(6,*)
       write(6,*) 'Runtime: 0.2s'
       write(6,*) 'Num steps: ', av%nsteps
-      write(6,*) 'Timestep: ', av%dt_total
+      write(6,*) 'Timestep: ', av%dt
       write(6,*)
 
       end subroutine set_timestep
