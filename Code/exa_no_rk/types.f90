@@ -16,10 +16,8 @@
 !         Timestepping, smoothing and other run options
           real ::  cfl, sfac, dt, d_max, d_avg
           integer :: nsteps, nstep
-
-!         Total timestep for Runge-Kutta scheme and nrkuts
-	      integer :: nrkuts
-          real :: dt_total
+          
+          real :: nrkuts
 
 !         Second order time derivative factor for Crocco method
           real :: facsec
