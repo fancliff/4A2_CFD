@@ -18,7 +18,7 @@
           integer :: nsteps, nstep
 
 !         Total timestep for Runge-Kutta scheme and nrkuts
-	  real :: nrkuts
+	      integer :: nrkuts
           real :: dt_total
 
 !         Second order time derivative factor for Crocco method
