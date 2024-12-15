@@ -19,7 +19,6 @@
 
 !         Total timestep for Runge-Kutta scheme and nrkuts
 	      integer :: nrkuts
-          real :: dt_total
 
 !         Second order time derivative factor for Crocco method
           real :: facsec
@@ -90,9 +89,6 @@
 
 !         Primary variables at nodes
           real, dimension(:,:), allocatable :: ro, roe, rovx, rovy
-          
-!         Initial Primary variables for Runge-Kutta scheme
-          real, dimension(:,:), allocatable :: ro_start, roe_start, rovx_start, rovy_start
 
 !         Variables to hold cell increments
           real, dimension(:,:), allocatable :: dro, droe, drovx, drovy

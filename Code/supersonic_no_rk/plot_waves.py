@@ -82,7 +82,7 @@ def main():
         if name == 'mach':
             contour = ax.contour(g['x'],g['y'],g['mach'],levels=levels,
                                  colors='w',linewidths=0.5)
-            #ax.clabel(contour, inline=False, fontsize=8)
+            ax.clabel(contour, inline=True, fontsize=8)
             
         # Add Pstag = 0.05 contours
         levels = np.arange(-2,2,0.02)
