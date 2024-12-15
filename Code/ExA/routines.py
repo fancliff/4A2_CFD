@@ -577,7 +577,8 @@ def read_settings(filename):
     av['cv'] = av['cp'] / av['gam']
 
     # Read the CFL, smoothing factor and convergence limit
-    av['cfl'],av['sfac'],av['d_max'],av['facsec'],av['nrkuts'],av['spatial_acc'] = [float(x) for x in f.readline().split()]
+    av['cfl'],av['sfac'],av['d_max'],av['facsec'],av['nrkuts'],av['spatial_acc'] = \
+        [float(x) for x in f.readline().split()]
 
     # Read the number of steps
     av['nsteps'] = [int(x) for x in f.readline().split()]
