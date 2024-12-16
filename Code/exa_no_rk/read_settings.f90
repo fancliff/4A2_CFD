@@ -80,11 +80,6 @@
           read(10, *) bcs%t_in(i), bcs%pstag_in(i), bcs%p_out_in(i)
       end do
       close(10)
-            
-      ! set initial values so that flow guess is calculated properly
-      bcs%pstag = bcs%pstag_in(1)
-      bcs%p_out = bcs%p_out_in(1)
-      bcs%rostag = bcs%pstag / (av%rgas * bcs%tstag)
 
 
 !     Print the settings to check they have been read, you can use this syntax

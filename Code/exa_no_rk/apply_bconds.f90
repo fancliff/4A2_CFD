@@ -47,6 +47,7 @@
           bcs%ro = bcs%rfin * g%ro(1,:) + (1 - bcs%rfin) * bcs%ro
       endif
       bcs%ro = min(bcs%ro, 0.9999 * bcs%rostag)
+      !bcs%ro = min(bcs%ro, bcs%rostag)
 
 !     Calculate "p(1,:)", "rovx(1,:)", "rovy(1,:)" and "roe(1,:)" from the inlet 
 !     "ro(:)", "pstag", "tstag" and "alpha". Also set "vx(1,:)", "vy(1,:)" and 

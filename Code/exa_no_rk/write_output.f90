@@ -20,7 +20,7 @@
       elseif(outtype == 3) then
           outname = 'final'
       elseif(outtype == 4) then
-          outname = 'unsteady'
+          outname = 'unste'
       end if
       
 !     Open a new file to write the data into, it is an unformatted binary file

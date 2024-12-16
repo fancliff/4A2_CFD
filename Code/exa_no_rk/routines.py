@@ -610,6 +610,8 @@ def read_case(filename):
         outtype = 2
     elif 'final' in filename:
         outtype = 3
+    elif 'unste' in filename:
+        outtype = 4
 
     # Initialise the dictionary to store the data
     g = {}
@@ -649,7 +651,7 @@ def read_case(filename):
             g[name] = np.reshape(g[name],[ni,nj],order='F')
 
     # Read the cell increment only if the file is a full solution
-    if outtype > 2:
+    if outtype == 3:
         fieldnames = ['dro','droe','drovx','drovy']
         ni = g['ni']-1; nj = g['nj']-1;
         for n,name in enumerate(fieldnames):

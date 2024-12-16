@@ -49,9 +49,15 @@ def main():
     print(f'T0exit/T0in: {tstag_out_in:.4f}')
     print(f'Mdot_exit/Mdot_in: {mdot_out_in:.4f}\n')
 
-    g['cp'] = (g['p'] - p_ref)/(pstag_ref-p_ref)
-    g['cpstag'] = (g['pstag'] - pstag_ref)/(pstag_ref-p_ref)
+    # g['cp'] = (g['p'] - p_ref)/(pstag_ref-p_ref)
+    # g['cpstag'] = (g['pstag'] - pstag_ref)/(pstag_ref-p_ref)
+    # For the tunnel case normalise just by pstag_ref
+    # Because pstag_ref and p_ref are almost identical at the end
+    # So small errors appear blown out of proportion
+    g['cp'] = (g['p'] - p_ref)/(pstag_ref)
+    g['cpstag'] = (g['pstag'] - pstag_ref)/(pstag_ref)
 
+    
     min_cpstag = np.min(g['cpstag'])
     max_cpstag = np.max(g['cpstag'])
     print(f'Cpstag min: {min_cpstag:.4e}')
