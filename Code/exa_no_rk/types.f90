@@ -18,6 +18,12 @@
           integer :: nsteps, nstep
           
           real :: nrkuts
+          
+!         Total time stored for time-varying boundary conditions
+          real :: t_tot
+          
+!         Frame number stored for time-varying printouts 
+          real :: frame_no
 
 !         Second order time derivative factor for Crocco method
           real :: facsec
@@ -50,6 +56,10 @@
 
 !         Block numbers of the inlet and outlet in multi-block extension
           integer :: n_in, n_out
+          
+!         Time varying boundary conditions
+          real, dimension(:), allocatable :: t_var, pstag_var, p_out_var
+          real, dimension(:), allocatable :: t_in, pstag_in, p_out_in
 
       end type t_bconds
 

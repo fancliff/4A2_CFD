@@ -69,8 +69,8 @@
      
       subroutine interp(x,y,xp,yp)
 
-!     Piecewise linear 1D interpolation of a curve to new values, input data
-!     must be either monotonically increasing or decreasing, can be non-uniformly spaced
+!     Piecewise linear 1D interpolation of a curve to new values, input x data
+!     must be monotonically increasing, can be non-uniformly spaced
      
 !     Explicitly declare the required variables, the sizes are assumed 
       implicit none
@@ -78,29 +78,19 @@
       real, intent(out) :: yp(:)
       integer :: n, p, nn, np
       real :: s
-      logical :: is_increasing
 
 !     Length of the input vectors
       nn = size(x)
       np = size(xp)
-      
-!     Check if data is increasing or decreasing, must be monotonic
-      is_increasing = (x(2) > x(1))
      
 !     Loop over all new values of x 
       do p = 1,np
       
 !         Find the index of the interval that the new x value lies within
           n = 1 
-          if (is_increasing) then
-              do while(x(n+1) < xp(p))
-                  n = n + 1
-              end do
-          else
-              do while(x(n+1) > xp(p))
-                  n = n + 1
-              end do
-          end if
+          do while(x(n+1) < xp(p))
+              n = n + 1
+          end do
      
 !         Calculate weight between values at the ends of the interval 
           s = (xp(p) - x(n)) / (x(n+1) - x(n))

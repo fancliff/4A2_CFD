@@ -7,6 +7,7 @@
 
 !     Explicitly declare the required variables
       use types
+      use routines
       implicit none
       type(t_appvars), intent(in) :: av
       type(t_grid), intent(inout) :: g
@@ -14,6 +15,12 @@
 
 !     Declare the other variables you need here
       real, dimension(g%nj) :: tstat, vel
+      
+!     Time varying boundary condition stuff
+!     Find current inlet pstag and p_out from time varying data
+!     Note that bcs%tstag is treated as constant for all time 
+      bcs%pstag = bcs%pstag_var(av%nstep)
+      bcs%p_out = bcs%p_out_var(av%nstep)
 
 !     At the inlet boundary the change in density is driven towards "rostag",
 !     which is then used to obtain the other flow properties to match the
@@ -22,6 +29,9 @@
 !     To help prevent instabilities forming at the inlet boundary condition the 
 !     changes in inlet density are relaxed by a factor "rfin" normally set to 
 !     0.25 but it can be reduced further.
+
+!     Calculate the inlet stagnation density "rostag"
+      bcs%rostag = bcs%pstag / (av%rgas * bcs%tstag)
 
 !     It is also worth checking if "ro" is greater than "rostag" and limiting 
 !     the values to be slightly less than "rostag". This can prevent the solver 
@@ -36,6 +46,7 @@
 !     Calculate "p(1,:)", "rovx(1,:)", "rovy(1,:)" and "roe(1,:)" from the inlet 
 !     "ro(:)", "pstag", "tstag" and "alpha". Also set "vx(1,:)", "vy(1,:)" and 
 !     "hstag(1,:)"
+      
       tstat = bcs%tstag * (bcs%ro/bcs%rostag)**(av%gam-1)
       vel = sqrt( 2.0 * av%cp * (bcs%tstag - tstat) )
       g%vx(1,:) = vel * cos(bcs%alpha)

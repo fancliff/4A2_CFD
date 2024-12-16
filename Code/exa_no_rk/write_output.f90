@@ -8,6 +8,7 @@
       type(t_grid), intent(in) :: g
       integer, intent(in) :: outtype
       character(len=5) :: outname
+      character(len=8) :: string
 
 !     Check what data to write to file depending on the value contained within
 !     "outtype", options are to output grid coordinates only, grid + initial
@@ -18,6 +19,8 @@
           outname = 'guess'
       elseif(outtype == 3) then
           outname = 'final'
+      elseif(outtype == 4) then
+          outname = 'unsteady'
       end if
       
 !     Open a new file to write the data into, it is an unformatted binary file
@@ -25,8 +28,15 @@
 !     residual variables contained within the "g" variable. It is relatively
 !     straightforward to read into other programs as long as you know the
 !     structure.
-      open(unit=7,file='out_' // outname // '_' // av%casename // '.bin', &
-          form='unformatted',access='stream',status='replace')
+
+      if(outtype /= 4) then
+          open(unit=7,file='out_' // outname // '_' // av%casename // '.bin', &
+              form='unformatted',access='stream',status='replace')
+      elseif(outtype == 4) then
+          write(string, '(I5.5)') av%frame_no
+          open(unit=7,file='out_' // outname // '_' // trim(string) // '.bin', &
+              form='unformatted',access='stream',status='replace')
+      end if
 
 !     Write the size of the mesh
       write(7) [g%ni, g%nj]
@@ -54,7 +64,7 @@
 !     Write cell increment data only if the flow has been solved, if you want to 
 !     include any other detailed data about the solution or time marching 
 !     calculations then you should write the variables here
-      if(outtype > 2) then
+      if(outtype == 3) then
       
 !         Write cell increments, note these arrays are smaller than the node  
 !         data that has been written above

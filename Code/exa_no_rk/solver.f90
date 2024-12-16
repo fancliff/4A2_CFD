@@ -22,7 +22,7 @@
       type(t_geometry) :: geom
       type(t_grid) :: g
       real :: d_max = 1, d_avg = 1
-      integer :: nstep, nconv = 5, ncheck = 5      
+      integer :: nstep, nconv = 5, ncheck = 5, nframes = 100     
 
 !     Read in the data on the run settings
       call read_settings(av,bcs)
@@ -74,6 +74,10 @@
 !     Set the length of the timestep, initially this is a constant based on a 
 !     conservative guess of the mach number
       call set_timestep(av,g,bcs)
+      
+      ! Set the time varying boundary conditions using files read from settings
+      ! And the now generated timestep
+      call set_bcs(av,bcs)
 
 !     Open file to store the convergence history. This is human readable during
 !     a long run by using "tail -f conv_example.csv" in a terminal window
@@ -92,6 +96,11 @@
 
 !         Update record of nstep to use in subroutines
           av%nstep = nstep
+          
+          ! Update solution time to be used for time-varying bconds
+          ! Should this come at the start or end of the loop
+          ! Or is there no discernible difference
+          av%t_tot = av%t_tot + av%dt
 
 !         Calculate secondary flow variables used in conservation equations
           call set_secondary(av,g)
@@ -102,10 +111,15 @@
 !         Perform the timestep to update the primary flow variables
           call euler_iteration(av,g)
 
-
 !         Write out summary every "nconv" steps and update "davg" and "dmax" 
           if(mod(av%nstep,nconv) == 0) then
               call check_conv(av,g,d_avg,d_max)
+          end if
+          
+          ! Print a set number of frames for the unsteady output
+          if(mod(av%nstep,av%nsteps/nframes) == 0) then
+              call write_output(av,g,4)
+              av%frame_no = av%frame_no + 1
           end if
 
 !         Check the solution hasn't diverged or a stop has been requested 
@@ -118,7 +132,7 @@
           if(d_max < av%d_max .and. d_avg < av%d_avg) then
               write(6,*) 'Calculation converged in', nstep,'iterations'
               exit
-          end if
+          end if      
 
       end do
 
