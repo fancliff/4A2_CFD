@@ -18,8 +18,8 @@ def generate_bcs(initial_pressure,
                  num_points,
                  output_file,
                  atmospheric_pressure=100000,
-                 delay_time=0.1,
-                 hold_time=5.0
+                 delay_time=0.0,
+                 hold_time=0.5,
 ):
     """
     Generates a .txt file with time, stagnation pressure values (constant during hold time, then decaying),
@@ -32,8 +32,8 @@ def generate_bcs(initial_pressure,
         num_points (int): Number of data points to generate.
         output_file (str): Name of the output .txt file.
         atmospheric_pressure (float): Constant atmospheric pressure to add (default: 100,000 Pa).
-        delay_time (float): Time delay before the valve opens (default: 0.1 s).
-        hold_time (float): Duration during which stagnation pressure remains constant before decay (default: 5 s).
+        delay_time (float): Time delay before the valve opens.
+        hold_time (float): Duration during which stagnation pressure remains constant before decay.
     """
     # Calculate the decay constant K to ensure P0_final = 0.01 * P0_initial after total_time
     K = -np.log(0.01) / decay_time  # Decay constant for 1% decay after decay_time
@@ -44,11 +44,8 @@ def generate_bcs(initial_pressure,
     # Initialize stagnation pressure array
     stagnation_pressure = np.zeros(num_points)
 
-    # Set stagnation pressure to atmospheric pressure for the first timestep
-    stagnation_pressure[0] = atmospheric_pressure
-
     # Compute stagnation pressure for times after the valve is opened
-    for i in range(1, num_points):
+    for i in range(0, num_points):
         if time[i] < delay_time:
             stagnation_pressure[i] = atmospheric_pressure
         elif time[i] < delay_time + hold_time:
@@ -72,8 +69,10 @@ def generate_bcs(initial_pressure,
 if __name__ == "__main__":
     # User-defined parameters
     initial_pressure = float(input("Enter initial stagnation GAUGE pressure (P0_initial): "))
-    total_time = 40.0  # Total time sampled in seconds
-    decay_time = 30.0  # Time for decay to 1% of gauge pstag
+    total_time = float(input("Enter total time (in seconds): "))
+    # Total time sampled in seconds - must be greater than solver run-time
+    decay_time = float(input("Enter decay time (in seconds): "))
+    # Time for decay to 1% of gauge pstag
     num_points = int(input("Enter number of points to generate: "))
     output_file = 'bcs_tunnel.txt'
     # output_file = input("Enter output file name (e.g., 'bcs.txt'): ")

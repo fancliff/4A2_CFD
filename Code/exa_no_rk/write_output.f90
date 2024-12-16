@@ -34,7 +34,7 @@
               form='unformatted',access='stream',status='replace')
       elseif(outtype == 4) then
           write(string, '(I5.5)') av%frame_no
-          open(unit=7,file='out_' // outname // '_' // trim(string) // '.bin', &
+          open(unit=7,file='tunnel_blowdown/out_' // outname // '_' // trim(string) // '.bin', &
               form='unformatted',access='stream',status='replace')
       end if
 

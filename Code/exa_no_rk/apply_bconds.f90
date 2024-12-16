@@ -21,6 +21,11 @@
 !     Note that bcs%tstag is treated as constant for all time 
       bcs%pstag = bcs%pstag_var(av%nstep)
       bcs%p_out = bcs%p_out_var(av%nstep)
+      
+      !write(6,*) av%nstep
+      !write(6,*) bcs%t_var(av%nstep)
+      !write(6,*) bcs%pstag
+      !write(6,*) bcs%p_out
 
 !     At the inlet boundary the change in density is driven towards "rostag",
 !     which is then used to obtain the other flow properties to match the
@@ -41,7 +46,7 @@
       else
           bcs%ro = bcs%rfin * g%ro(1,:) + (1 - bcs%rfin) * bcs%ro
       endif
-      bcs%ro = min(bcs%ro,0.9999 * bcs%rostag)
+      bcs%ro = min(bcs%ro, 1.0 * bcs%rostag)
 
 !     Calculate "p(1,:)", "rovx(1,:)", "rovy(1,:)" and "roe(1,:)" from the inlet 
 !     "ro(:)", "pstag", "tstag" and "alpha". Also set "vx(1,:)", "vy(1,:)" and 

@@ -23,7 +23,7 @@
           real :: t_tot
           
 !         Frame number stored for time-varying printouts 
-          real :: frame_no
+          integer :: frame_no
 
 !         Second order time derivative factor for Crocco method
           real :: facsec
