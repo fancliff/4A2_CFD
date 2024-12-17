@@ -27,8 +27,10 @@ def generate_movies():
     g = read_case(outname)
     g = calc_secondary(av, g)
     g_inlet = cut_i(g, 0)
+    g_outlet = cut_i(g, -1)
     pstag_ref, _ = mass_av(g_inlet, 'pstag')
     p_ref, _ = area_av(g_inlet, 'p')
+    p_ref_out,_ = area_av(g_outlet, 'p')
     print('')
     print(f'Reference static pressure: {p_ref:.0f}, Reference stagnation pressure: {pstag_ref:.0f}\n')
 
@@ -44,9 +46,11 @@ def generate_movies():
     print(f"Found {len(files)} files to process.")
 
     # Parameters to plot
-    fieldnames = ['mach', 'cp', 'cpstag']
-    colnames = ['Mach number', 'Static pressure coefficient', 'Stagnation pressure coefficient']
-
+    # fieldnames = ['mach', 'cp', 'cpstag']
+    # colnames = ['Mach number', 'Static pressure coefficient', 'Stagnation pressure coefficient']
+    fieldnames = ['mach']
+    colnames = ['Mach number']
+    
     # Only preload every n-th frame
     n = 1  # Modify this to control how many frames to skip
 
@@ -63,8 +67,13 @@ def generate_movies():
                 # Calculate secondary variables
                 g = calc_secondary(av, g)
 
-                g['cp'] = (g['p'] - p_ref) / (pstag_ref)
-                g['cpstag'] = (g['pstag'] - pstag_ref) / (pstag_ref)
+                # g['cp'] = (g['p'] - p_ref)/(pstag_ref-p_ref)
+                # g['cpstag'] = (g['pstag'] - pstag_ref)/(pstag_ref-p_ref)
+                # For the tunnel case normalise just by p_ref_out = 1atm
+                # Because pstag_ref and p_ref are almost identical at the end
+                # So small errors appear blown out of proportion
+                g['cp'] = (g['p'] - p_ref)/(p_ref_out)
+                g['cpstag'] = (g['pstag'] - pstag_ref)/(p_ref_out)
 
                 frames_data.append(g)
 

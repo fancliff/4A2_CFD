@@ -32,8 +32,10 @@ def main():
     # reference pressures at the inlet plane and therefore the static pressure
     # coefficient
     g_inlet = cut_i(g,0)
+    g_outlet = cut_i(g,-1)
     pstag_ref,_ = mass_av(g_inlet,'pstag')
     p_ref,_ = area_av(g_inlet,'p')
+    p_ref_out,_ = area_av(g_outlet,'p')
     tstag_ref,mdot_ref = mass_av(g_inlet,'tstag')
     mdot_ref = np.sum(mdot_ref)
     #tstag_ref = av['tstag']
@@ -51,11 +53,11 @@ def main():
 
     # g['cp'] = (g['p'] - p_ref)/(pstag_ref-p_ref)
     # g['cpstag'] = (g['pstag'] - pstag_ref)/(pstag_ref-p_ref)
-    # For the tunnel case normalise just by pstag_ref
+    # For the tunnel case normalise just by p_ref_out = 1atm
     # Because pstag_ref and p_ref are almost identical at the end
     # So small errors appear blown out of proportion
-    g['cp'] = (g['p'] - p_ref)/(pstag_ref)
-    g['cpstag'] = (g['pstag'] - pstag_ref)/(pstag_ref)
+    g['cp'] = (g['p'] - p_ref)/(p_ref_out)
+    g['cpstag'] = (g['pstag'] - pstag_ref)/(p_ref_out)
 
     
     min_cpstag = np.min(g['cpstag'])

@@ -21,7 +21,7 @@
 !     flows. In the latter case the length of the time step as determined by 
 !     may need to be reduced by improving this routine or varying the CFL number
       ! Increase timestep for tunnel case as max speed ~ Mach 2.5
-      v_max = astag * 3.5
+      v_max = astag * 2.0
 
 !     Calculate the timestep using the CFL number and store it in "av%dt"
       av%dt = av%cfl * g%l_min / v_max

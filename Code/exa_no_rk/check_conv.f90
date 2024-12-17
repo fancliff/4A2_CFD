@@ -49,10 +49,10 @@
           drovy_avg, dro_max, droe_max, drovx_max, drovy_max
 
 !     Write a short human readable output summary to the screen.
-      write(6,*) 'Time step number ', av%nstep
-      fmt_step = '(a,e10.3,a,i4,a,i4,a,e10.3)'
-      write(*,fmt_step) '   d_max =', d_max, ' at i =', ij_max(1), ', j =', &
-         ij_max(2), ', d_avg =', d_avg
+!      write(6,*) 'Time step number ', av%nstep
+!      fmt_step = '(a,e10.3,a,i4,a,i4,a,e10.3)'
+!      write(*,fmt_step) '   d_max =', d_max, ' at i =', ij_max(1), ', j =', &
+!         ij_max(2), ', d_avg =', d_avg
 
       end subroutine check_conv
 
