@@ -33,6 +33,7 @@ def generate_movies():
     p_ref_out,_ = area_av(g_outlet, 'p')
     print('')
     print(f'Reference static pressure: {p_ref:.0f}, Reference stagnation pressure: {pstag_ref:.0f}\n')
+    print(f'Outlet static pressure: {p_ref_out:.0f}\n')
 
     # Path to the directory containing the input files
     folder = 'tunnel_blowdown'
@@ -46,10 +47,10 @@ def generate_movies():
     print(f"Found {len(files)} files to process.")
 
     # Parameters to plot
-    # fieldnames = ['mach', 'cp', 'cpstag']
-    # colnames = ['Mach number', 'Static pressure coefficient', 'Stagnation pressure coefficient']
-    fieldnames = ['mach']
-    colnames = ['Mach number']
+    fieldnames = ['mach', 'cp', 'cpstag']
+    colnames = ['Mach number', 'Static pressure coefficient', 'Stagnation pressure coefficient']
+    # fieldnames = ['mach']
+    # colnames = ['Mach number']
     
     # Only preload every n-th frame
     n = 1  # Modify this to control how many frames to skip
@@ -109,11 +110,11 @@ def generate_movies():
 
             # Determine vmin and vmax based on the field
             if current_field == 'cp':
-                vmin, vmax = -2, 2
+                vmin, vmax = -1.4, 0.4
             elif current_field == 'mach':
-                vmin, vmax = 0, 3  # Typical Mach number range
+                vmin, vmax = 0, 2.0  # Typical Mach number range
             elif current_field == 'cpstag':
-                vmin, vmax = -2, 2
+                vmin, vmax = -0.5, 0.1
             else:
                 vmin, vmax = None, None  # Auto-scale if undefined
 
@@ -149,22 +150,22 @@ def generate_movies():
         ani = FuncAnimation(fig, update, frames=num_frames, init_func=init, blit=False)
 
         try:
-            output_video = f'tunnel_blowdown_movie_{current_field}.mp4'
+            output_video = f'bump_ramp__movie_{current_field}'
 
             # Adjust figure size and layout
             fig.set_size_inches(8, 6)  # Set to reasonable dimensions
             fig.tight_layout()  # Prevent label overlap
 
-            ani.save(output_video, fps=10, extra_args=['-vcodec', 'mpeg4'])
-            print(f"Movie for {current_field} saved as {output_video}")
+            ani.save(output_video+'.mp4', fps=10, extra_args=['-vcodec', 'mpeg4'])
+            print(f"Movie for {current_field} saved as {output_video}.mp4")
         except Exception as e:
             print(f"Failed to save {current_field} as MP4 due to: {e}")
             print("Falling back to GIF format...")
 
             # Reduce resolution for GIF saving
             fig.set_size_inches(6.4, 4.8)  # Smaller figure size
-            ani.save(f'tunnel_blowdown_movie_{current_field}.gif', fps=10, writer='pillow')
-            print(f"Movie for {current_field} saved as tunnel_blowdown_movie_{current_field}.gif")
+            ani.save(output_video+'.gif', fps=10, writer='pillow')
+            print(f"Movie for {current_field} saved as {output_video}.gif")
 
         # Close the figure to free memory
         plt.close(fig)

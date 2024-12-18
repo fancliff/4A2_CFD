@@ -65,13 +65,16 @@ def generate_space_time_mach_plot():
     # User inputs
     num_total_steps = int(input('Enter Total Timesteps: '))  # Total number of steps in the solution
     timestep = 1.63889786E-06       # Time step per solution step
-    num_frames = len(files)         # Number of frames to process
+    num_frames = 100        # Number of frames intended
+    num_files = len(files)   # Number of frames generated
+    # Less than num_frames if solver diverges early
     
     # Load Mach data, x_coords, and centerline index
     mach_data, x_coords, centerline_idx = load_mach_frames(files, av)
     
     # Time array for the frames
-    frame_times = np.linspace(0, num_total_steps * timestep, num_frames)
+    end = timestep * num_total_steps * num_files / num_frames
+    frame_times = np.linspace(0, end, num_files)
 
     # Print shape of frame_times and x_coords
     print(f"Shape of frame_times: {frame_times.shape}")
@@ -106,7 +109,7 @@ def generate_space_time_mach_plot():
     fig, ax = plt.subplots(figsize=(10, 6))
 
     # Use pcolormesh with the corrected grid
-    c = ax.pcolormesh(X, T, centerline_mach, shading='auto', cmap='viridis', vmin=0, vmax=3)
+    c = ax.pcolormesh(X, T, centerline_mach, shading='auto', cmap='viridis', vmin=0, vmax=2.0)
 
     # Add labels and colorbar
     fig.colorbar(c, ax=ax, label='Mach Number')

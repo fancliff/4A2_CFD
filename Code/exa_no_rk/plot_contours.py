@@ -48,16 +48,17 @@ def main():
     
     print('')
     print(f'Reference static pressure: {p_ref:.0f}, Reference stagnation pressure: {pstag_ref:.0f}\n')
+    print(f'Outlet static pressure: {p_ref_out:.0f}\n')
     print(f'T0exit/T0in: {tstag_out_in:.4f}')
     print(f'Mdot_exit/Mdot_in: {mdot_out_in:.4f}\n')
 
-    # g['cp'] = (g['p'] - p_ref)/(pstag_ref-p_ref)
-    # g['cpstag'] = (g['pstag'] - pstag_ref)/(pstag_ref-p_ref)
+    g['cp'] = (g['p'] - p_ref)/(pstag_ref-p_ref)
+    g['cpstag'] = (g['pstag'] - pstag_ref)/(pstag_ref-p_ref)
     # For the tunnel case normalise just by p_ref_out = 1atm
     # Because pstag_ref and p_ref are almost identical at the end
     # So small errors appear blown out of proportion
-    g['cp'] = (g['p'] - p_ref)/(p_ref_out)
-    g['cpstag'] = (g['pstag'] - pstag_ref)/(p_ref_out)
+    # g['cp'] = (g['p'] - p_ref)/(p_ref_out)
+    # g['cpstag'] = (g['pstag'] - pstag_ref)/(p_ref_out)
 
     
     min_cpstag = np.min(g['cpstag'])
