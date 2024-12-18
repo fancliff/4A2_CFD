@@ -96,6 +96,7 @@ def main():
         ax.set_xlim(-0.05,1.05)
 
     # Show all the plots
+    plt.tight_layout()
     plt.show()
     
 main()

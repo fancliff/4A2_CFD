@@ -72,7 +72,12 @@ def main():
         ax.set_aspect('equal',adjustable='box'); ax.axis('off')
  
         # Plot filled contour levels
-        hc = ax.pcolormesh(g['x'],g['y'],g[name],shading='gouraud')
+        if name == 'mach' or name == 'M_exact':
+            hc = ax.pcolormesh(g['x'],g['y'],g[name],shading='gouraud',vmin=0.6,vmax=1.8)
+        elif name == 'cp' or name == 'cp_exact':
+            hc = ax.pcolormesh(g['x'],g['y'],g[name],shading='gouraud',vmin=0.0,vmax=0.6)
+        else:
+            hc = ax.pcolormesh(g['x'],g['y'],g[name],shading='gouraud')
 
         # Add colorbar with variable name
         colorbar(hc,colnames[n])
@@ -93,8 +98,9 @@ def main():
 
         # Draw the walls of the block
         plot_wall(ax,g)
-
+        
     # Show all the plots
+    plt.tight_layout()
     plt.show()
 
     
